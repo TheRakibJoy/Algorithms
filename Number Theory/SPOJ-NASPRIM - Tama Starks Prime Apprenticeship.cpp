@@ -107,36 +107,23 @@ perfect
 {
     int t,T,i,j,k,l,r,lb,ub,co,last,temp,add;
     sieve();
-//    cout<<Bin(0,4,8)<<endl;
     scin(T);
     RUN_CASE(t,T)
     {
         last=Prime.size()-1;
-//        cout<<Bin(0,5,0)<<endl;
         co=0;
         sc("%d %d %d",&l,&r,&k);
         if(l>r)
             swap(l,r);
-        lb = upper_bound(Prime.begin(),Prime.end(),l) - Prime.begin();
-//        if(r >= 9999991)
-//            ub=last;
-       // else
+        for(i=0; i<=last&&Prime[i]<=r; i++)
         {
-            ub= lower_bound(Prime.begin(),Prime.end(),r) - Prime.begin();
+            temp=Prime[i]+k;
+            if(temp > r)
+                break;
+            if(Prime[i]>=l&&mark[temp] == 0)
+                co+=1;
         }
-        ///if(l >= 999991)
-            co=0;
-        ///else
-        {
-            for(i=0; i<=ub; i++)
-            {
-                temp=Prime[i]+k;
-                if(temp > r)
-                    break;
-                if(Prime[i]>=l&&mark[temp] == 0)
-                    co+=1;
-            }
-        }
+
         pf("%d\n",co);
     }
     return 0;
