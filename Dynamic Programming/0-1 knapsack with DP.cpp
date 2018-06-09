@@ -69,17 +69,14 @@ int knapsack(int i,int w,int *cost,int *weight,int CAP)
         else
         {
             profit1=cost[i]+knapsack(i+1,w+weight[i],cost,weight,CAP);
-            dp[i][w]=profit1;
         }
     }
     else
     {
         profit1=0;
-        dp[i][w]=profit1;
     }
     profit2=knapsack(i+1,w,cost,weight,CAP);
-    dp[i+1][w]=profit2;
-    return max(profit1,profit2);
+    return dp[i][w] = max(profit1,profit2);
 }
 
 perfect
