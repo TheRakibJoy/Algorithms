@@ -57,7 +57,7 @@ int vis[100005];
 vector<int>graph[100005];
 void DFS(int start,int x)
 {
-    if(vis[start]==0 || (vis[start]!=x))
+    if(vis[start]==0 || (vis[start]!=x)) /** Counting All SubGraph **/
     {
         vis[start]=x;
         for(int i=0;i<graph[start].size();i++)
@@ -74,7 +74,6 @@ perfect
     scin(T);
     RUN_CASE(t,T)
     {
-    /** Counting All SubGraph **/
         scin(n);
         scin(e);
         for(i=0;i<e;i++)
