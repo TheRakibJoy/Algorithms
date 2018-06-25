@@ -74,6 +74,7 @@ perfect
     scin(T);
     RUN_CASE(t,T)
     {
+    /** Counting All SubGraph **/
         scin(n);
         scin(e);
         for(i=0;i<e;i++)
