@@ -1,0 +1,78 @@
+1. How to sort an array or vector in decreasing order
+
+bool cmp(int a,int b)
+{
+  if(a != b)
+    return a>b
+   return 0;
+ }
+ main()
+ {
+  sort(a,a+n,cmp);                //for array
+  sort(a.begin(),a.end(),cmp);    //for vector
+  }
+  
+  2. Sort more than one data through operator overloading
+  
+  struct Data
+  {
+    int val,pos;
+    bool operator < (Data A)
+    {
+      if(val != A.val)
+        return val<A.val;           //Here we have to use greater than(>) if we want to sort in decreasing order
+      else if(pos != A.pos)
+        return pos<A.pos;           //Here we have to use greater than(>) if we want to sort in decreasing order
+      return 0;
+    }
+  };
+  
+3. Sort more than one data through method overloading
+  
+struct Data
+{
+    int val,pos;
+};
+bool cmp (Data A,Data B)
+{
+      if(A.val != B.val)
+        return A.val<B.val;           //Here we have to use greater than(>) if we want to sort in decreasing order
+      else if(A.pos != B.pos)
+        return A.pos<B.pos;           //Here we have to use greater than(>) if we want to sort in decreasing order
+      return 0;
+}
+
+4.If we have to add an int x in an array from index i to index j,and we have to do the cumulative sum of the array. Then there is a way
+except O(n) complexity. See.....
+
+ara[i] += x;
+ara[j+1] += -x;
+for(i=1;i<=n;i++)
+  ara[i] += ara[i-1];
+  
+5. If we have to count the quantity of integer with any value -10^18<= x <=10^18. Then, map is the best way to solve this task. See...
+
+map<int,int>m;
+main()
+{
+    int ara[n];
+    for(i=0;i<n;i++)
+    {
+        scin(ara[i]);
+        m[ara[i]]++;
+    }
+ }
+ 
+ 6. How to seperate int from a given string
+ 
+ string s1;
+ getline(cin,s1);
+ stringstream ss;
+ int x;
+ ss<<s1;
+ while(ss>>x)
+ {
+    cout<<x<<endl;        ///seperated int
+ }
+ 
+ 7.
