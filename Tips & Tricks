@@ -75,4 +75,6 @@ main()
     cout<<x<<endl;        ///seperated int
  }
  
- 7.
+ 7. Try to less number of function arguments as much as possible.
+ 
+ 8. Try to use long long int to avoid overflow.
