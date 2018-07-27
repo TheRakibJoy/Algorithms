@@ -42,6 +42,21 @@ bool cmp (Data A,Data B)
       return 0;
 }
 
+**See the structure of fractional knapsack & think a little bit about it!
+struct Data
+{
+    int id;
+    double weight,profit;
+    bool operator<(Data A)
+    {
+        if((profit/weight) > (A.profit/A.weight))
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
 4.If we have to add an int x in an array from index i to index j,and we have to do the cumulative sum of the array. Then there is a way
 except O(n) complexity. See.....
 
