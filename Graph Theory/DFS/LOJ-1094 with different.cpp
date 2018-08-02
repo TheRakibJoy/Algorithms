@@ -74,6 +74,7 @@ void DFS(int start)
     sum[start].y=0;
     for(int i=0; i<graph[start].size(); i++)
     {
+        // Here,we have to count the cost of leaf value. Thats,why DFS is looking little bit different **/
         int temp;
         ll mx;
         temp=graph[start][i];
