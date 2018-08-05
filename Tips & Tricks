@@ -93,3 +93,8 @@ main()
  7. Try to less number of function arguments as much as possible.
  
  8. Try to use long long int to avoid overflow.
+ 
+ 9. convert an integer n to 32 bit binary number x:
+      bitset<32>x(n);
+10. count number of one in binary representation:
+      int cnt=x.count();
