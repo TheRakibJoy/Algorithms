@@ -68,7 +68,7 @@ ll fun(int i,int carry,int n,int taken)
     }
     if(dp[i][carry][d][taken] != -1)
         return dp[i][carry][d][taken];
-    int ret1=0,ret2=0;
+    ll ret1=0,ret2=0;
     ret1=fun(i+1,(((carry+val[i])%d)+d)%d,n,taken-1);
     ret2=fun(i+1,carry,n,taken);
     return dp[i][carry][d][taken]=ret1+ret2;
