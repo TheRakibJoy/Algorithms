@@ -61,59 +61,63 @@ vector<int>ans;
 int n,cap,cons;
 ll knapsack(int i,int w)
 {
-    ll profit1,profit2;
+    ll profit1=0,profit2=0;
     if(i == n)
         return 0;
     if(dp[i][w] != -1)
         return dp[i][w];
     if(w+(3*weight[i]*cons) <= cap)
         profit1=cost[i]+knapsack(i+1,w+(3*weight[i]*cons));
-    else
-        profit1=0;
     profit2=knapsack(i+1,w);
-    if(profit1 >= profit2)
-        dir[i][w]=1;
-    else
-        dir[i][w]=-1;
     return dp[i][w]=max(profit1,profit2);
 }
-void Print()
+void Print( int i, int w ) /** Solution Print of Knapsack **/
 {
-    int w=0;
-    for(int i=0;i<n;i++)
+    ll profit1=0,profit2=0;
+    if(i == n)
+        return ;
+    if(w+(3*weight[i]*cons) <= cap)
     {
-        if(dir[i][w] == 1)
+        profit1=cost[i]+ dp[i+1][w+(3*weight[i]*cons)] ;
+        profit2=dp[i+1][w];
+        if( profit1 >= profit2 )
         {
-            ans.pb(i);
-            w += (3*weight[i]*cons);
+            ans.pb(i) ;
+            Print(i+1,w+(3*weight[i]*cons)) ;
+        }
+        else
+        {
+            Print(i+1,w) ;
         }
     }
+    else
+        Print(i+1,w) ;
 }
 int main()
 {
 //    Output;
     int i,j,k;
     ll profit;
+    int caseno = 0 ;
     while(scin2(cap,cons) != EOF)
     {
+        if( caseno )
+            puts("") ;
+        caseno ++ ;
         ans.clear();
         ms(dp,-1);
-        ms(dir,-1);
-        ms(weight,0);
-        ms(cost,0);
         scin(n);
         for(i=0; i<n; i++)
         {
             scin2(weight[i],cost[i]);
         }
         profit=knapsack(0,0);
-        Print();
+        Print( 0, 0 );
         pf("%lld\n",profit);
         int sz=ans.size();
         pf("%d\n",sz);
         for(i=0; i<sz; i++)
             pf("%d %d\n",weight[ans[i]],cost[ans[i]]);
-        pf("\n");
     }
     return 0;
 }
