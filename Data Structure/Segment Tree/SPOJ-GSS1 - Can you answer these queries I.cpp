@@ -81,6 +81,22 @@ void init(int node,int b,int e)
     init(right,mid+1,e);
     tree[node]=combine(tree[left],tree[right]);
 }
+void update(int node,int b,int e,int idx,int val)
+{
+    if(idx>e || idx<b)
+        return;
+    if(b>=idx && e<=idx)
+    {
+        tree[node]=make_data(val);
+        return;
+    }
+    int left=node*2;
+    int right=left+1;
+    int mid=(b+e)/2;
+    update(left,b,mid,idx,val);
+    update(right,mid+1,e,idx,val);
+    tree[node]=combine(tree[left],tree[right]);
+}
 data query(int node,int b,int e,int i,int j)
 {
     if(i>e || j<b)
@@ -104,6 +120,8 @@ int main()
         scin(ara[i]);
     init(1,1,n);
     scin(q);
+//    update(1,1,n,1,5);
+//    update(1,1,n,2,-3);
     for(i=1;i<=q;i++)
     {
         scin2(x,y);
