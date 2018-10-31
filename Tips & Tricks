@@ -102,4 +102,7 @@ main()
     (a/b)%m = ( (a%m)* BigMod(b,m-2,m) ) %m   ; when m is a prime number.
     That means b^-1 % m = b^m-2 % m;
 12. How to convert a double to an integer value without precission loss?
-    multiply by 1000 for a value have 2 digit after decimal places, multiply by 10000 for 3 digit and so on.
+    Using round function is the best.
+13. How to merge 2 set or vector?
+    set<int>a,b,m;
+    merge(a.begin(),a.end(),b.begin(),b.end(),inserter(m,m.end()));
