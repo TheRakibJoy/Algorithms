@@ -1,6 +1,6 @@
-/** Find the max value & number of times it appears**/
-#include<bits/stdc++.h>
+/** MO's algo for counting number of distinct element **/
 
+#include<bits/stdc++.h>
 #define Input                   freopen("in.txt","r",stdin)
 #define Output                  freopen("out.txt","w",stdout)
 #define ll                      long long int
@@ -26,7 +26,7 @@
 #define vii                     vector<vector<int> >
 #define vll                     vector<vector<ll> >
 #define DBG                     pf("HI\n")
-//#define MOD                     100000007
+#define MOD                     100000007
 #define CIN                     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define RUN_CASE(t,T)           for(__typeof(t) t=1;t<=T;t++)
 #define CASE(t)                 printf("Case %d: ",t)
@@ -61,84 +61,62 @@ using namespace std;
 //cout<<*X.find_by_order(1)<<endl; // 2 //cout<<*X.find_by_order(2)<<endl; // 4 //cout<<*X.find_by_order(4)<<endl; // 16 //cout<<(end(X)==X.find_by_order(6))<<endl; // true
 //cout<<X.order_of_key(-5)<<endl;  // 0 //cout<<X.order_of_key(1)<<endl;   // 0 //cout<<X.order_of_key(3)<<endl;   // 2 //cout<<X.order_of_key(4)<<endl;   // 2 //cout<<X.order_of_key(400)<<endl; // 5
 
-#define sz 100005
+#define sz 1000100
+#define qsz 200005
 int ara[sz];
-pii tree[sz*4];
-
-pii combine(pii a,pii b)
+int cnt[sz];
+struct query
 {
-    if(a.first > b.first)
-        return a;                                   /** First-value , Second-frequency**/
-    if(b.first > a.first)
-        return b;
-    return make_pair(a.first,a.second+b.second);    /** When value is same,then sum the frequency**/
+    int l,r,id;
+}q[qsz];
+int k=450;
+bool cmp(query &a,query &b)
+{
+    int block_a=a.l/k;
+    int block_b=b.l/k;
+    if(block_a == block_b)
+        return a.r<b.r;
+    return block_a<block_b;
 }
-void init(int node,int b,int e)
+int lp=0,rp=-1,sum=0,ans[qsz];
+void add(int x)
 {
-    if(b == e)
-    {
-        tree[node]=make_pair(ara[b],1);
-        return;
-    }
-    int left=node*2;
-    int right=left+1;
-    int mid=(b+e)/2;
-    init(left,b,mid);
-    init(right,mid+1,e);
-    tree[node]=combine(tree[left],tree[right]);
+    cnt[ara[x]]++;
+    if(cnt[ara[x]] == 1)
+        sum+=1;
 }
-pii query(int node,int b,int e,int i,int j)
+void rem(int x)
 {
-    if(i>e || j<b)
-        return make_pair(-infinity,0);
-    if(b>=i && e<=j)
-        return tree[node];
-    int left=node*2;
-    int right=left+1;
-    int mid=(b+e)/2;
-    pii p1=query(left,b,mid,i,j);
-    pii p2=query(right,mid+1,e,i,j);
-    return combine(p1,p2);
-}
-void update(int node,int b,int e,int pos,int val)
-{
-    if(pos>e || pos<b)
-        return;
-    if(b>=pos && e<=pos)
-    {
-        tree[node]=make_pair(val,1);
-        return;
-    }
-    int left=node*2;
-    int right=left+1;
-    int mid=(b+e)/2;
-    update(left,b,mid,pos,val);
-    update(right,mid+1,e,pos,val);
-    tree[node]=combine(tree[left],tree[right]);
+    cnt[ara[x]]--;
+    if(cnt[ara[x]] == 0)
+        sum-=1;
 }
 int main()
 {
-    int i,j,n,lb,ub,pos,val,q,cmd;
-    pii ans;
-    scin2(n,q);
-    for(i=1;i<=n;i++)
+    int i,j,n,Q,x,y;
+    scin(n);
+    for(i=0;i<n;i++)
         scin(ara[i]);
-    init(1,1,n);
-    for(i=1;i<=q;i++)
+    scin(Q);
+    for(i=0;i<Q;i++)
     {
-        scin(cmd);      /** 0-update; 1-query **/
-        if(cmd == 0)
-        {
-            scin2(pos,val);
-            update(1,1,n,pos,val);
-        }
-        else
-        {
-            scin2(lb,ub);
-            ans = query(1,1,n,lb,ub);
-            pf("Maximum value=%d\tFrequency=%d\n",ans.first,ans.second);
-        }
+        scin2(x,y);
+        q[i].l=x-1;
+        q[i].r=y-1;
+        q[i].id=i;
+    }
+    sort(q,q+Q,cmp);
+    for(i=0;i<Q;i++)
+    {
+        while(lp>q[i].l) add(--lp);
+        while(rp<q[i].r) add(++rp);
+        while(lp<q[i].l) rem(lp++);
+        while(rp>q[i].r) rem(rp--);
+        ans[q[i].id]=sum;
+    }
+    for(i=0;i<Q;i++)
+    {
+        pf("%d\n",ans[i]);
     }
     return 0;
 }
-

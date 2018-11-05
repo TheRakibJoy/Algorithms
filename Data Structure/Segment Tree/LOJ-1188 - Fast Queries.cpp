@@ -1,6 +1,6 @@
-/** Find the max value & number of times it appears**/
-#include<bits/stdc++.h>
+/**Segment Tree with offline query for distinct element**/
 
+#include<bits/stdc++.h>
 #define Input                   freopen("in.txt","r",stdin)
 #define Output                  freopen("out.txt","w",stdout)
 #define ll                      long long int
@@ -26,7 +26,7 @@
 #define vii                     vector<vector<int> >
 #define vll                     vector<vector<ll> >
 #define DBG                     pf("HI\n")
-//#define MOD                     100000007
+#define MOD                     100000007
 #define CIN                     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define RUN_CASE(t,T)           for(__typeof(t) t=1;t<=T;t++)
 #define CASE(t)                 printf("Case %d: ",t)
@@ -62,51 +62,29 @@ using namespace std;
 //cout<<X.order_of_key(-5)<<endl;  // 0 //cout<<X.order_of_key(1)<<endl;   // 0 //cout<<X.order_of_key(3)<<endl;   // 2 //cout<<X.order_of_key(4)<<endl;   // 2 //cout<<X.order_of_key(400)<<endl; // 5
 
 #define sz 100005
-int ara[sz];
-pii tree[sz*4];
-
-pii combine(pii a,pii b)
+#define qsz 50005
+struct Data
 {
-    if(a.first > b.first)
-        return a;                                   /** First-value , Second-frequency**/
-    if(b.first > a.first)
-        return b;
-    return make_pair(a.first,a.second+b.second);    /** When value is same,then sum the frequency**/
-}
-void init(int node,int b,int e)
+    int value,index;
+} ara[sz];
+struct Range
 {
-    if(b == e)
+    int l,r,id;
+    bool operator < (Range A)
     {
-        tree[node]=make_pair(ara[b],1);
-        return;
+        if(r == A.r)
+            return l<A.l;
+        return r<A.r;
     }
-    int left=node*2;
-    int right=left+1;
-    int mid=(b+e)/2;
-    init(left,b,mid);
-    init(right,mid+1,e);
-    tree[node]=combine(tree[left],tree[right]);
-}
-pii query(int node,int b,int e,int i,int j)
-{
-    if(i>e || j<b)
-        return make_pair(-infinity,0);
-    if(b>=i && e<=j)
-        return tree[node];
-    int left=node*2;
-    int right=left+1;
-    int mid=(b+e)/2;
-    pii p1=query(left,b,mid,i,j);
-    pii p2=query(right,mid+1,e,i,j);
-    return combine(p1,p2);
-}
+} q[qsz];
+int ans[qsz],tree[3*sz];
 void update(int node,int b,int e,int pos,int val)
 {
     if(pos>e || pos<b)
         return;
     if(b>=pos && e<=pos)
     {
-        tree[node]=make_pair(val,1);
+        tree[node]=val;
         return;
     }
     int left=node*2;
@@ -114,31 +92,67 @@ void update(int node,int b,int e,int pos,int val)
     int mid=(b+e)/2;
     update(left,b,mid,pos,val);
     update(right,mid+1,e,pos,val);
-    tree[node]=combine(tree[left],tree[right]);
+    tree[node]=tree[left]+tree[right];
 }
+int query(int node,int b,int e,int i,int j)
+{
+    if(i>e || j<b)
+        return 0;
+    if(b>=i && e<=j)
+        return tree[node];
+    int left=node*2;
+    int right=left+1;
+    int mid=(b+e)/2;
+    int p1=query(left,b,mid,i,j);
+    int p2=query(right,mid+1,e,i,j);
+    return p1+p2;
+}
+map<int,int>m;
 int main()
 {
-    int i,j,n,lb,ub,pos,val,q,cmd;
-    pii ans;
-    scin2(n,q);
-    for(i=1;i<=n;i++)
-        scin(ara[i]);
-    init(1,1,n);
-    for(i=1;i<=q;i++)
+//    Output;
+    int i,j,n,Q,t,T,lb,ub;
+    scin(T);
+    RUN_CASE(t,T)
     {
-        scin(cmd);      /** 0-update; 1-query **/
-        if(cmd == 0)
+        m.clear();
+        ms(ara,0);
+        ms(q,0);
+        ms(ans,0);
+        ms(tree,0);
+        scin2(n,Q);
+        for(i=1; i<=n; i++)
         {
-            scin2(pos,val);
-            update(1,1,n,pos,val);
+            scin(ara[i].value);
+            ara[i].index=i;
         }
-        else
+        for(i=1; i<=Q; i++)
         {
-            scin2(lb,ub);
-            ans = query(1,1,n,lb,ub);
-            pf("Maximum value=%d\tFrequency=%d\n",ans.first,ans.second);
+            scin2(q[i].l,q[i].r);
+            q[i].id=i;
         }
+        sort(q+1,q+Q+1);
+        int lp=1;
+        int now=1;
+        while(lp<=n)
+        {
+            if(m[ara[lp].value] != 0)
+            {
+                int temp=m[ara[lp].value];
+                update(1,1,n,temp,0);
+            }
+            update(1,1,n,ara[lp].index,1);
+            m[ara[lp].value]=ara[lp].index;
+            while(lp == q[now].r)
+            {
+                ans[q[now].id]=query(1,1,n,q[now].l,q[now].r);
+                now++;
+            }
+            lp++;
+        }
+        pf("Case %d:\n",t);
+        for(i=1; i<=Q; i++)
+            pf("%d\n",ans[i]);
     }
     return 0;
 }
-
