@@ -123,4 +123,6 @@ main()
 	
 	return 0;
 }
-N.B: Next one is more efficient
+N.B: Next one is more efficient.
+
+14. Check the size of vector every time whenever u want to you access your vector's element. Otherwise, it can be show u RTE.
