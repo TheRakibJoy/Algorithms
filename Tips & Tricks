@@ -14,18 +14,20 @@ bool cmp(int a,int b)
   
   2. Sort more than one data through operator overloading
   
-  struct Data
-  {
-    int val,pos;
-    bool operator < (Data A)
+struct node
+{
+    int id,w;
+    node(){}
+    node(int a,int b)
     {
-      if(val != A.val)
-        return val<A.val;           //Here we have to use greater than(>) if we want to sort in decreasing order
-      else if(pos != A.pos)
-        return pos<A.pos;           //Here we have to use greater than(>) if we want to sort in decreasing order
-      return 0;
+        id=a;
+        w=b;
     }
-  };
+    bool operator < ( const node &p ) const{
+        if( w == p.w ) return id < p.id ;
+        return w > p.w ;
+    }
+};
   
 3. Sort more than one data through method overloading
   
