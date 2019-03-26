@@ -1,22 +1,23 @@
-Z- ALGO:
+Z- ALGO(String):
 https://www.youtube.com/watch?v=CpZh4eF8QBw
 https://www.hackerearth.com/practice/algorithms/string-algorithm/z-algorithm/tutorial/
 https://cp-algorithms.com/string/z-function.html
 
-Probability+Expected Value:
+Probability+Expected Value(Number Theory):
 http://www.shafaetsplanet.com/?p=3060
 https://www.codechef.com/wiki/tutorial-expectation
 
-Suffix Array:
+Suffix Array(Data Structure):
 https://web.stanford.edu/class/cs97si/suffix-array.pdf
+https://cp-algorithms.com/string/suffix-array.html
 
-KMP:
+KMP(String):
 http://www.iti.fh-flensburg.de/lang/algorithmen/pattern/kmpen.htm
 
-Segment Tree:
+Segment Tree(Data Structure):
 https://jaskamalkainth.github.io/Segment-tree-Problems/
 https://cp-algorithms.com/data_structures/segment_tree.html
 
-Dynamic Programming:
+Dynamic Programming(Divide & conquier):
 https://www.codechef.com/wiki/tutorial-dynamic-programming
 https://www.topcoder.com/community/competitive-programming/tutorials/dynamic-programming-from-novice-to-advanced/
