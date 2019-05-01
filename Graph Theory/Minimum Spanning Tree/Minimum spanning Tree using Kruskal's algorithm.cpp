@@ -102,7 +102,10 @@ int MST(int n)
                 break;
         }
     }
-    return s;
+    if(cnt == n-1)
+        return s;       /** All the nodes are connected **/
+    else
+        return -1;      /** There are twice or more component **/
 }
 
 int main()
