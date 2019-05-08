@@ -70,25 +70,28 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-int SOD[10000005],NOD[10000005];
-void SODnNOD(int n)
+vi Factor;
+void getFactor(int n)
 {
-    for(int i=1 ; i<=n ; i++)
+    for(int i=2 ; i*i<=n ; i++)
     {
-        for(int j=i ; j<=n ; j+=i)
+        if(n%i == 0)
         {
-            NOD[j]++;
-            SOD[j] += i;
+            while(n%i == 0)
+            {
+                Factor.pb(i);
+                n /= i;
+            }
         }
     }
+    if(n > 1)
+        Factor.pb(n);
 }
 int main()
 {
-    SODnNOD(1e6);
-    int mx=0;
-    for(int i=1 ; i<=1e6 ; i++)
-        mx = max(mx,NOD[i]);
-    cout<<mx<<endl;
+    getFactor(97);
+    for(int i=0 ; i<Factor.size() ; i++)
+        cout<<Factor[i]<<" ";
     return 0;
 }
 

@@ -50,8 +50,6 @@ using namespace std;
 //ll BigMod(ll a,ll b,ll m){if(b == 0)return 1%m;else if(b%2 == 0){ll temp=BigMod(a,b/2,m);return ((temp%m)*(temp%m))%m;}else{return ((a%m)*BigMod(a,b-1,m)%m)%m;}}
 //ll frequency(ll n,ll factor)/** Frequency of a factor in n! **/{ll cnt=0;while(n){cnt += (n/factor);n /= factor;}return cnt;}
 //ll power(ll a,ll n){ll ans=1;if(n == 0)return 1;else if(n == 1)return a;else return a*power(a,n-1);}
-//vector<ll>Prime;bool mark[10000009];
-//void sieve(ll n){ll i,j;mark[1]=1;for(i=4; i<=n; i+=2)mark[i]=1;Prime.push_back(2);for(i=3; i<=n; i+=2){if(!mark[i]){Prime.push_back(i);if(i*i<=n){for(j=i*i; j<=n; j+=(i*2))mark[j]=1;}}}}
 //vector<ll>List;
 //void Primefactorize(ll n){for(ll i=0; Prime[i]*Prime[i]<=n; i++){if(n%Prime[i] == 0){while(n%Prime[i] == 0){List.push_back(Prime[i]);n/=Prime[i];}}}if(n>1){List.push_back(n);}}
 /**     Order Set       **/
@@ -70,25 +68,60 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-int SOD[10000005],NOD[10000005];
-void SODnNOD(int n)
+vector<int>Prime;
+bool mark[10000005];
+void sieve(int n)
+{
+    ll i,j;
+    mark[1]=1;
+    for(i=4; i<=n; i+=2)
+        mark[i]=1;
+    Prime.push_back(2);
+    for(i=3; i<=n; i+=2)
+    {
+        if(!mark[i])
+        {
+            Prime.push_back(i);
+            if(i*i<=n)
+            {
+                for(j=i*i; j<=n; j+=(i*2))
+                    mark[j]=1;
+            }
+        }
+    }
+}
+int sod[1000005],sum[1000005];
+void SOD(int n)
 {
     for(int i=1 ; i<=n ; i++)
     {
         for(int j=i ; j<=n ; j+=i)
-        {
-            NOD[j]++;
-            SOD[j] += i;
+            sod[j] += i;
+    }
+}
+void CumSum(int n)
+{
+    for(int i=1 ; i<=n ; i++)
+    {
+        sum[i] += sum[i-1];
+        if(mark[sod[i]] == 0){
+            sum[i] += 1;
         }
     }
 }
 int main()
 {
-    SODnNOD(1e6);
-    int mx=0;
-    for(int i=1 ; i<=1e6 ; i++)
-        mx = max(mx,NOD[i]);
-    cout<<mx<<endl;
+    sieve(1e7);
+    SOD(1e6);
+    CumSum(1e6);
+    int i,j,a,b,t,T,ans;
+    scin(T);
+    RUN_CASE(t,T)
+    {
+        scin2(a,b);
+        ans = sum[b]-sum[a-1];
+        pf("%d\n",ans);
+    }
     return 0;
 }
 

@@ -28,7 +28,7 @@
 #define vii                     vector<vector<int> >
 #define vll                     vector<vector<ll> >
 #define DBG                     pf("HI\n")
-#define MOD                     1000000007
+#define MOD                     10000007
 #define CIN                     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define RUN_CASE(t,T)           for(__typeof(t) t=1;t<=T;t++)
 #define CASE(t)                 printf("Case %d: ",t)
@@ -47,11 +47,8 @@ using namespace std;
 /**     toint, tostring, BigMod, Power , sieve, Primefactorize ,frequency in n!     **/
 //ll toint(string s){ll n=0,k=1;for(int i=s.size()-1; i>=0; i--){n += ((s[i]-'0')*k);k*=10;}return n;}
 //string tostring(ll x){string s="";while(x){s += (x%10)+'0';x/=10;}reverse(s.begin(),s.end());return s;}
-//ll BigMod(ll a,ll b,ll m){if(b == 0)return 1%m;else if(b%2 == 0){ll temp=BigMod(a,b/2,m);return ((temp%m)*(temp%m))%m;}else{return ((a%m)*BigMod(a,b-1,m)%m)%m;}}
 //ll frequency(ll n,ll factor)/** Frequency of a factor in n! **/{ll cnt=0;while(n){cnt += (n/factor);n /= factor;}return cnt;}
 //ll power(ll a,ll n){ll ans=1;if(n == 0)return 1;else if(n == 1)return a;else return a*power(a,n-1);}
-//vector<ll>Prime;bool mark[10000009];
-//void sieve(ll n){ll i,j;mark[1]=1;for(i=4; i<=n; i+=2)mark[i]=1;Prime.push_back(2);for(i=3; i<=n; i+=2){if(!mark[i]){Prime.push_back(i);if(i*i<=n){for(j=i*i; j<=n; j+=(i*2))mark[j]=1;}}}}
 //vector<ll>List;
 //void Primefactorize(ll n){for(ll i=0; Prime[i]*Prime[i]<=n; i++){if(n%Prime[i] == 0){while(n%Prime[i] == 0){List.push_back(Prime[i]);n/=Prime[i];}}}if(n>1){List.push_back(n);}}
 /**     Order Set       **/
@@ -70,25 +67,80 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-int SOD[10000005],NOD[10000005];
-void SODnNOD(int n)
+
+ll BigMod(ll a,ll b,ll m)
 {
-    for(int i=1 ; i<=n ; i++)
+    if(b == 0)
+        return 1%m;
+    else if(b%2 == 0)
     {
-        for(int j=i ; j<=n ; j+=i)
+        ll temp=BigMod(a,b/2,m);
+        return ((temp%m)*(temp%m))%m;
+    }
+    else
+    {
+        return ((a%m)*BigMod(a,b-1,m)%m)%m;
+    }
+}
+vector<int>Prime;
+bool mark[10000009];
+ll m[80005];
+void sieve(int n)
+{
+    ll i,j;
+    mark[1]=1;
+    for(i=4; i<=n; i+=2)
+        mark[i]=1;
+    Prime.push_back(2);
+    for(i=3; i<=n; i+=2)
+    {
+        if(!mark[i])
         {
-            NOD[j]++;
-            SOD[j] += i;
+            Prime.push_back(i);
+            if(i*i<=n)
+            {
+                for(j=i*i; j<=n; j+=(i*2))
+                    mark[j]=1;
+            }
         }
     }
 }
+ll FactorFrequency(int n,int p)
+{
+    ll res=0;
+    while(n >= p)
+    {
+        res += (n/p);
+        n /= p;
+    }
+    return res;
+}
 int main()
 {
-    SODnNOD(1e6);
-    int mx=0;
-    for(int i=1 ; i<=1e6 ; i++)
-        mx = max(mx,NOD[i]);
-    cout<<mx<<endl;
+    sieve(1e6);
+    ll i,j,n,ans,cnt,x,y;
+    while(1)
+    {
+        ms(m,0);
+        ans=1;
+        scln(n);
+        if(n == 0)
+            break;
+        for(i=0 ; i<Prime.size() ; i++)
+        {
+            m[i] = FactorFrequency((int)n,Prime[i]);
+        }
+        for(i=0 ; i<Prime.size() ; i++)
+        {
+            if(m[i] > 0)
+            {
+                y=m[i];
+                cnt = ((y+1)*(y+2))/2;
+                ans = ((ans%MOD)*(cnt%MOD))%MOD;
+            }
+        }
+        pf("%lld\n",ans);
+    }
     return 0;
 }
 

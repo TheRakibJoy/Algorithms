@@ -70,25 +70,100 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-int SOD[10000005],NOD[10000005];
-void SODnNOD(int n)
+bool mark[10000005];
+int SP[10000005];        /** Here we store smallest factor for each number **/
+vector<int> Prime;
+void Sieve(int n)
 {
-    for(int i=1 ; i<=n ; i++)
+    ll i,j;
+    mark[1]=1;
+    for(i=4 ; i<=n ; i+=2){
+        mark[i]=1;
+        SP[i]=2;
+    }
+    Prime.push_back(2);
+    SP[1]=1;
+    SP[2]=2;
+    for(i=3 ; i<=n ; i+=2)
     {
-        for(int j=i ; j<=n ; j+=i)
+        if(!mark[i])
         {
-            NOD[j]++;
-            SOD[j] += i;
+            Prime.push_back(i);
+            SP[i]=i;
+            if(i*i <= n)    /** Can be overflow **/
+            {
+                for(j=i*i ; j<=n ; j+=(i*2)){
+                    mark[j]=1;
+                    if(!SP[j])SP[j]=i;
+                }
+            }
         }
     }
 }
+map<int,int>m;
+map<int,int>::iterator it;
+void getFactor(int n)       /** It will works when prime till n is generated **/
+{
+    m.clear();
+    while(n != 1)
+    {
+        m[SP[n]]++;
+        n/=SP[n];
+    }
+}
+int cnt(int n,int p)
+{
+    int res=0;
+    while(n >= p)
+    {
+        res += (n/p);
+        n /= p;
+    }
+    return res;
+}
+bool valid(int n)       /** n! **/
+{
+    int x,y;
+    bool fg=1;
+    for(it=m.begin() ; it!=m.end() ; it++)
+    {
+        x=it->first;
+        y=it->second;
+        if(cnt(n,x) < y)
+        {
+            fg=0;
+            break;
+        }
+    }
+    return fg;
+}
+int Bin(int a)
+{
+    getFactor(a);
+    int lo=0,hi=10000000,mid,res=0;
+    while(lo <= hi)
+    {
+        mid=(lo+hi)/2;
+        if(valid(mid) == 1)
+        {
+            res=mid;
+            hi=mid-1;
+        }
+        else
+        {
+            lo=mid+1;
+        }
+    }
+    return res;
+}
 int main()
 {
-    SODnNOD(1e6);
-    int mx=0;
-    for(int i=1 ; i<=1e6 ; i++)
-        mx = max(mx,NOD[i]);
-    cout<<mx<<endl;
+    Sieve(10000002);
+    int a,b,ans,x,y;
+    scin2(a,b);
+    x=Bin(a);
+    y=Bin(b);
+    ans = max(0,y-x);
+    pf("%d\n",ans);
     return 0;
 }
-
