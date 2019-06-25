@@ -71,7 +71,7 @@ using namespace std;
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
 /** Binary Search + Meet In the Middle + Backtracking **/
-/** For each coin we've three coins. We can take this coin for 0,1 or 2 times **/
+/** For each coin we've three choices. We can take this coin for 0,1 or 2 times **/
 /** So,we'll divide the coins into two portion & generating all possible permutation of both portion **/
 /** Then,sort 2nd portion B. And search for every x-A[i] in the 2nd portion. If yes the ans will be yes or No otherwise **/
 int coin[20];
