@@ -69,6 +69,7 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
+/** Longest Palindromic Subsequence Template - 2 **/
 int LPS(char *s)
 {
     int i,j,cl,n=strlen(s);

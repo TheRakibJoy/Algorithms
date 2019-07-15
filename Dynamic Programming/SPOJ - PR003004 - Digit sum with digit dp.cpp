@@ -69,69 +69,65 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-/** Longest Palindromic Subsequence Template-1 **/
-int dp[1005][1005];
-string s;
-int LPS(int pos1,int pos2)
+ll dp[2][2][16][16][145];
+/**
+State-1: Is this number smaller than the range
+State-2: Is this position is starting position or not
+State-3: Position
+State-4: Total number of digit used in this number
+State-5: Sum of digit of this number
+**/
+vector<int>num;
+ll FuN(bool isSmall,bool isStart,int pos,int tot_digit,int sum_digit)
 {
-    if(pos1 == pos2)    /** If there is only one character **/
-        return 1;
-    if(s[pos1]==s[pos2] && pos1+1==pos2)    /** If there r only two characters & both r same **/
-        return 2;
-    if(dp[pos1][pos2] != -1)
-        return dp[pos1][pos2];
+    if(pos >= (int)num.size())
+        return (ll)sum_digit;
+    if(dp[isSmall][isStart][pos][tot_digit][sum_digit] != -1)
+        return dp[isSmall][isStart][pos][tot_digit][sum_digit];
+    ll ret=0,can_be_taken=0;
+    if(isSmall)
+        can_be_taken=9;
+    else
+        can_be_taken=num[pos];
+    if(!isStart)
+    {
+        for(int i=0 ; i<=can_be_taken ; i++)
+            ret += FuN(isSmall|(i<num[pos]) , 0 , pos+1 , tot_digit+1 , sum_digit+i);
+    }
     else
     {
-        if(s[pos1] == s[pos2])
-            return dp[pos1][pos2] = 2+LPS(pos1+1, pos2-1);
-        else
-            return dp[pos1][pos2] = max(LPS(pos1+1,pos2), LPS(pos1,pos2-1));
+        for(int i=1 ; i<=can_be_taken ; i++)
+            ret += FuN(isSmall|(i<num[pos]) , 0 , pos+1 , tot_digit+1 , sum_digit+i);
+        ret += FuN(1 , 1 , pos+1 , 0 , 0);
     }
+    return dp[isSmall][isStart][pos][tot_digit][sum_digit] = ret;
 }
-/** Print the solution **/
-vector<char>v1,v2;
-void Print(int pos1,int pos2)
+ll Calculate(ll x)
 {
-    if(pos1 == pos2)
+    if(x <= 0)
+        return 0;
+    num.clear();
+    ms(dp , -1);
+    while(x)
     {
-        v1.pb(s[pos1]);
-        return;
+        num.pb(x%10);
+        x /= 10;
     }
-    if(s[pos1]==s[pos2] && pos1+1==pos2)
-    {
-        v1.pb(s[pos1]);
-        v2.pb(s[pos2]);
-        return;
-    }
-    if(s[pos1] == s[pos2])
-    {
-        v1.pb(s[pos1]);
-        v2.pb(s[pos2]);
-        Print(pos1+1 , pos2-1);
-    }
-    else
-    {
-        if(dp[pos1+1][pos2] > dp[pos1][pos2-1])
-            Print(pos1+1,pos2);
-        else
-            Print(pos1,pos2-1);
-    }
+    reverse(num.begin() , num.end());
+    return FuN(0 , 1 , 0 , 0, 0);
 }
 int main()
 {
-    int i,j,lps,len;
-    cin>>s;
-    ms(dp,-1);
-    lps = LPS(0,s.size()-1);
-    cout<<lps<<endl;
-    /** Solution Print **/
-    Print(0,s.size()-1);
-    reverse(v2.begin() , v2.end());
-    for(i=0 ; i<v1.size() ; i++)
-        cout<<v1[i];
-    for(i=0 ; i<v2.size() ; i++)
-        cout<<v2[i];
-    cout<<endl;
+    ll t,T,a,b,ans;
+    scln(T);
+    RUN_CASE(t,T)
+    {
+        scln2(a,b);
+        if(a > b)
+            swap(a,b);
+        ans = Calculate(b)-Calculate(a-1);
+        pf("%lld\n",ans);
+    }
     return 0;
 }
 

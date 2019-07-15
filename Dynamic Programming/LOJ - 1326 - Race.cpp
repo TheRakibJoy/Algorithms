@@ -28,7 +28,7 @@
 #define vii                     vector<vector<int> >
 #define vll                     vector<vector<ll> >
 #define DBG                     pf("HI\n")
-#define MOD                     1000000007
+#define MOD                     10056
 #define CIN                     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define RUN_CASE(t,T)           for(__typeof(t) t=1;t<=T;t++)
 #define CASE(t)                 printf("Case %d: ",t)
@@ -69,69 +69,43 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-/** Longest Palindromic Subsequence Template-1 **/
-int dp[1005][1005];
-string s;
-int LPS(int pos1,int pos2)
+int ncr[1002][1002];
+int nCr(int n,int r)
 {
-    if(pos1 == pos2)    /** If there is only one character **/
+    if(r==0 || n==r)
         return 1;
-    if(s[pos1]==s[pos2] && pos1+1==pos2)    /** If there r only two characters & both r same **/
-        return 2;
-    if(dp[pos1][pos2] != -1)
-        return dp[pos1][pos2];
+    else if(r == 1)
+        return n;
+    else if(ncr[n][r] != -1)
+        return ncr[n][r];
     else
-    {
-        if(s[pos1] == s[pos2])
-            return dp[pos1][pos2] = 2+LPS(pos1+1, pos2-1);
-        else
-            return dp[pos1][pos2] = max(LPS(pos1+1,pos2), LPS(pos1,pos2-1));
-    }
+        return ncr[n][r] = (nCr(n-1,r)+nCr(n-1,r-1))%MOD;
 }
-/** Print the solution **/
-vector<char>v1,v2;
-void Print(int pos1,int pos2)
+int dp[1002];
+int FuN(int n)
 {
-    if(pos1 == pos2)
+    if(n <= 1)
+        return 1;
+    else if(dp[n] != -1)
+        return dp[n];
+    int ret=0;
+    for(int i=1 ; i<=n ; i++)
     {
-        v1.pb(s[pos1]);
-        return;
+        ret = (ret + (nCr(n,i)*FuN(n-i)))%MOD;
     }
-    if(s[pos1]==s[pos2] && pos1+1==pos2)
-    {
-        v1.pb(s[pos1]);
-        v2.pb(s[pos2]);
-        return;
-    }
-    if(s[pos1] == s[pos2])
-    {
-        v1.pb(s[pos1]);
-        v2.pb(s[pos2]);
-        Print(pos1+1 , pos2-1);
-    }
-    else
-    {
-        if(dp[pos1+1][pos2] > dp[pos1][pos2-1])
-            Print(pos1+1,pos2);
-        else
-            Print(pos1,pos2-1);
-    }
+    return dp[n] = ret%MOD;
 }
 int main()
 {
-    int i,j,lps,len;
-    cin>>s;
+    ms(ncr,-1);
     ms(dp,-1);
-    lps = LPS(0,s.size()-1);
-    cout<<lps<<endl;
-    /** Solution Print **/
-    Print(0,s.size()-1);
-    reverse(v2.begin() , v2.end());
-    for(i=0 ; i<v1.size() ; i++)
-        cout<<v1[i];
-    for(i=0 ; i<v2.size() ; i++)
-        cout<<v2[i];
-    cout<<endl;
+    int i,j,t,T,n,ans;
+    scin(T);
+    RUN_CASE(t,T)
+    {
+        scin(n);
+        ans = FuN(n);
+        pf("Case %d: %d\n",t,ans%MOD);
+    }
     return 0;
 }
-
