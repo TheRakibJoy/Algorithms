@@ -70,6 +70,7 @@ using namespace std;
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
 /** Square Root Decomposition Template **/
+/** Point update ; Sum query **/
 int n,numBlock,blockSize;
 /** size of the blocks and the number of blocks r equal**/
 int ara[100005],block[320];
