@@ -161,7 +161,9 @@ int main()
         sc("%d %d %d",&id,&u,&v);
         if(id == 1)
         {
-            ans = query(1,1,2*n,st[u],st[v]);
+            start = min(st[u] , st[v]);
+            finish = max(st[u] , st[v]);
+            ans = query(1,1,2*n,start,finish);
             pf("Path cost between %d to %d = %d\n",u,v,ans);
         }
         else
