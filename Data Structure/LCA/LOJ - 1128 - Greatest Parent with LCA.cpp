@@ -69,6 +69,11 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
+/** Problem: you are given a rooted tree, where each node contains an integer value. 
+And the value of a node is strictly greater than the value of its parent. Now you 
+are given a node and an integer query. You have to find the greatest possible parent 
+of this node (may include the node itself), whose value if greater than or equal to the given query integer.    **/
+
 #define sz 100005
 bool vis[sz];
 int level[sz],parent[sz],sptable[sz][25],cost[sz];
