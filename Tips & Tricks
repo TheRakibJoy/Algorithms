@@ -139,3 +139,6 @@ bool cmp(const pair<ll,ll>&i, const pair<ll,ll>&j)
         return i.second < j.second;
 }
 sort(v.begin(),v.end(),cmp);
+
+16. Summation of all co-prime of a number:
+	(phi(n)/2)*n
