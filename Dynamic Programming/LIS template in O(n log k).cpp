@@ -105,6 +105,32 @@ int LisNlogK()
     }
     return LisLen;
 }
+/***
+void LDSNlogK()
+{
+    int i;
+    I[0] = infinity;
+    for(i=1 ; i<=n ; i++){
+        I[i] = -infinity;
+        L2[i] = n;
+    }
+    int LdsLen = 0;
+    for(i=0 ; i<n ; i++){
+        int lo=0,hi=LdsLen,mid;
+        while(lo <= hi){
+            mid = (lo+hi)/2;
+            if(ara[i] < I[mid])
+                lo = mid+1;
+            else
+                hi = mid-1;
+        }
+        I[lo] = ara[i];
+        L2[i] = lo;
+        if(LdsLen < lo)
+            LdsLen = lo;
+    }
+}
+***/
 void findSequence(int mxlen)
 {
     int i,j;
