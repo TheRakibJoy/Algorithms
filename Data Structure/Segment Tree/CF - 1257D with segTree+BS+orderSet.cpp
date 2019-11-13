@@ -1,0 +1,177 @@
+#include<bits/stdc++.h>
+
+#define Input                   freopen("in.txt","r",stdin)
+#define Output                  freopen("out.txt","w",stdout)
+#define ll                      long long int
+#define ull                     unsigned long long int
+#define pii                     pair<int,int>
+#define pll                     pair<ll,ll>
+#define sc                      scanf
+#define scin(x)                 sc("%d",&(x))
+#define scin2(x,y)              sc("%d %d",&(x),&(y))
+#define scln(x)                 sc("%lld",&(x))
+#define scln2(x,y)              sc("%lld %lld",&(x),&(y))
+#define pf                      printf
+#define all(a)                  (a.begin()),(a.end())
+#define UNIQUE(X)               (X).erase(unique(all(X)),(X).end())
+#define SORT_UNIQUE(c)          (sort(c.begin(),c.end()), c.resize(distance(c.begin(),unique(c.begin(),c.end()))))
+#define ms(a,b)                 memset(a,b,sizeof(a))
+#define pb(a)                   push_back(a)
+#define mp                      make_pair
+#define db                      double
+#define EPS                     10E-10
+#define ff                      first
+#define ss                      second
+#define sqr(x)                  (x)*(x)
+#define vi                      vector<int>
+#define vl                      vector<ll>
+#define vii                     vector<vector<int> >
+#define vll                     vector<vector<ll> >
+#define DBG                     pf("HI\n")
+#define MOD                     1000000007
+#define CIN                     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+#define RUN_CASE(t,T)           for(__typeof(t) t=1;t<=T;t++)
+#define CASE(t)                 printf("Case %d: ",t)
+#define CASEl(t)                printf("Case %d:\n",t)
+#define intlimit                2147483690
+#define longlimit               92233720368547758
+#define infinity                (1<<28)
+#define gcd(a,b)                __gcd(a,b)
+#define lcm(a,b)                ((a)*(b))/gcd(a,b)
+#define mxx                     123456789
+#define PI                      2*acos(0.0)
+#define rep(i,a,b)              for(__typeof(i) i=a;i<=b;i++)
+#define rev(i,a,b)              for(__typeof(i) i=a;i>=b;i--)
+
+using namespace std;
+/**     toint, tostring, BigMod, Power , sieve, Primefactorize ,frequency in n!     **/
+//ll toint(string s){ll n=0,k=1;for(int i=s.size()-1; i>=0; i--){n += ((s[i]-'0')*k);k*=10;}return n;}
+//string tostring(ll x){string s="";while(x){s += (x%10)+'0';x/=10;}reverse(s.begin(),s.end());return s;}
+//ll BigMod(ll a,ll b){if(b == 0)return 1%MOD;else if(b%2 == 0){ll temp=BigMod(a,b/2);return ((temp%MOD)*(temp%MOD))%MOD;}else{return ((a%MOD)*BigMod(a,b-1)%MOD)%MOD;}}
+//ll Power(ll a,ll n){ll ret=1;for(ll i=1 ; i<=n ; i++)ret = ((ret%MOD)*(a%MOD))%MOD;return ret;}
+//vector<ll>Prime;
+//bool mark[10000003];
+//void sieve(ll n){ll i,j;mark[1]=1;for(i=4; i<=n; i+=2)mark[i]=1;Prime.push_back(2);for(i=3; i<=n; i+=2){if(!mark[i]){Prime.push_back(i);if(i*i<=n){for(j=i*i; j<=n; j+=(i*2))mark[j]=1;}}}}
+//map<ll,ll>Factor;
+//void Primefactorize(ll n){for(ll i=0; i<Prime.size() && Prime[i]*Prime[i]<=n; i++){if(n%Prime[i] == 0){while(n%Prime[i] == 0){Factor[Prime[i]]++;n/=Prime[i];}}}if(n>1){Factor[n]++;}}
+//ll frequency(ll n,ll factor)/** Frequency of a factor in n! **/{ll cnt=0;while(n){cnt += (n/factor);n /= factor;}return cnt;}
+/**     Order Set       **/
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+template<typename T> using orderset = tree<T,null_type,less<T>,rb_tree_tag,tree_order_statistics_node_update>;
+//orderset<int> s ; //orderset<int>::iterator it ;
+//orderset<int> X; //X.insert(1); //X.insert(2); //X.insert(4); //X.insert(8); //X.insert(16);
+//cout<<*X.find_by_order(0)<<endl; // 2 //cout<<*X.find_by_order(2)<<endl; // 4 //cout<<*X.find_by_order(4)<<endl; // 16 //cout<<(end(X)==X.find_by_order(6))<<endl; // true
+//cout<<X.order_of_key(-5)<<endl;  // 0 //cout<<X.order_of_key(1)<<endl;   // 0 //cout<<X.order_of_key(3)<<endl;   // 2 //cout<<X.order_of_key(4)<<endl;   // 2 //cout<<X.order_of_key(400)<<endl; // 5
+///------------------Graph Moves-------------------
+///const int fx[] = {+1,-1,+0,+0};
+///const int fy[] = {+0,+0,+1,-1};
+///const int fx[] = {+0,+0,+1,-1,-1,+1,-1,+1}; ///King's move
+///const int fy[] = {-1,+1,+0,+0,+1,+1,-1,-1}; ///King's move
+///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
+///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
+
+#define sz 200005
+int n,m,ara[sz],treee[4*sz];
+void init(int node,int b,int e)
+{
+    if(b == e){
+        treee[node] = ara[b];
+        return;
+    }
+    int lft = node*2;
+    int rgt = lft+1;
+    int mid = (b+e)/2;
+    init(lft , b , mid);
+    init(rgt , mid+1 , e);
+    treee[node] = max(treee[lft] , treee[rgt]);
+}
+int query(int node,int b,int e,int i,int j)
+{
+    if(i>e || j<b)
+        return 0;
+    if(b>=i && e<=j)
+        return treee[node];
+    int lft = node*2;
+    int rgt = lft+1;
+    int mid = (b+e)/2;
+    int p1 = query(lft , b , mid , i , j);
+    int p2 = query(rgt , mid+1 , e , i , j);
+    return max(p1 , p2);
+}
+orderset<pii>hero;
+pii bra[sz];
+/// 1st-power ; 2nd-capability
+bool valid(int pos,int take)
+{
+    pii p1 = make_pair(0,0) , p2 = make_pair(0,0) , p3=make_pair(0,0);
+    int mx = query(1 , 1 , n , pos , pos+take-1);
+    int id1 , id2 , id3;
+    id1 = hero.order_of_key(make_pair(mx , take));
+    if(id1<m && id1>=0)
+        p1 = *hero.find_by_order(id1);
+    if((p1.first>=mx && p1.second>=take))
+        return 1;
+    else
+        return 0;
+}
+int main()
+{
+    int i,j,k,ans,p,s,t,T,mx1,mx2,baki,take;
+    scin(T);
+    RUN_CASE(t , T)
+    {
+        mx1 = mx2 = 0;
+        scin(n);
+        rep(i , 1 , n)
+        {
+            scin(ara[i]);
+            mx1 = max(mx1 ,  ara[i]);
+        }
+        scin(m);
+        rep(i , 1 , m)
+        {
+            scin2(bra[i].first , bra[i].second);
+            mx2 = max(mx2 , bra[i].first);
+        }
+        if(mx2 < mx1){
+            pf("-1\n");
+            continue;
+        }
+
+        sort(bra+1 , bra+m+1);
+        mx1 = 0;
+        for(i=m ; i>=1 ; i--){
+            mx1 = max(mx1 , bra[i].second);
+            hero.insert(make_pair(bra[i].first , mx1));
+        }
+        init(1 , 1 , n);
+        ans = 0;
+        int pos = 1;
+        while(pos <= n){
+            int lo=1,hi=n-pos+1,mid,res=-1;
+            while(lo <= hi){
+                mid = (lo+hi)/2;
+                take = mid;
+                if(valid(pos , take)){
+                    res = take;
+                    lo = mid+1;
+                }
+                else
+                    hi = mid-1;
+            }
+            if(res == -1){
+                ans = -1;
+                break;
+            }
+            else{
+                pos = pos+res;
+                ans++;
+            }
+        }
+        cout<<ans<<endl;
+        hero.clear();
+    }
+    return 0;
+}
+
