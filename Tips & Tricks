@@ -2,9 +2,7 @@
 
 bool cmp(int a,int b)
 {
-  if(a != b)
-    return a>b
-   return 0;
+	return a>b;
  }
  main()
  {
@@ -23,7 +21,7 @@ struct node
         id=a;
         w=b;
     }
-    bool operator < ( const node &p ) const{
+    bool operator < ( const node p ) const{
         if( w == p.w ) return id < p.id ;
         return w > p.w ;
     }
