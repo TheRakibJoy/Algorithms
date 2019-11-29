@@ -78,14 +78,20 @@ those b values. And print whether this summation is odd or even?
 **/
 vector<ll>bit,orgnum;
 ll x , dp[2][2][2][2][33];
+/// State-1: Is this number became already small?
+/// State-2: Is this digit is starting digit?
+/// State-3: Is this number match at least one bit with (a&(1<<k))? That means for non-zero b , (a&b)&(1<<k) will also be non-zero.
+/// State-4: Last used bit for making the value of b
+/// State-5: Position
 ll FuN(ll isSmall,ll isStart,ll match,ll lastBit,ll pos)
 {
     if(pos >= (ll)bit.size())
     {
         if(match)
-            return lastBit;
+            return lastBit; /** If match is true that means (a&b)&(1<<k)!=0. And if the statement is true then I've to return the rightmost bit of b. bcoz every time the rightmost bit defines whether the number is even or odd.
+            And I've to count the number of odd b. If the number of odd b is ODD,then the summation of b will be ODD. Otherwise,it'll be even **/
         else
-            return 0LL;
+            return 0LL;     /** If (a&b)&(1<<k)==0 then b is not valid **/
     }
     if(dp[isSmall][isStart][match][lastBit][pos] != -1)
         return dp[isSmall][isStart][match][lastBit][pos];
@@ -128,7 +134,7 @@ ll Calculate(ll val,ll temp)
     }
 
     for(ll i=(ll)orgnum.size() ; i<(ll)bit.size() ; i++)
-        orgnum.pb(0);
+        orgnum.pb(0);   /// Make the number of bit of Range and (a&(1<<k)) equal
     for(ll i=(ll)bit.size() ; i<(ll)orgnum.size() ; i++)
         bit.pb(0);
     reverse(bit.begin(), bit.end());
