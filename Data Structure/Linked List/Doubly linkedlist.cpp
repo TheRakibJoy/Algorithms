@@ -90,5 +90,7 @@ int main()
     Insert(head->next , 30);
     ForwardPrint(head);
     BackwardPrint(tail);
+    RemoveNode(head , tail , head->next);
+    ForwardPrint(head);
     return 0;
 }
