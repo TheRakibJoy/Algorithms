@@ -81,14 +81,14 @@ Solution:
     all this 6 nodes have capacity n.
     So, we've to split this 6 nodes as XXLin-1 ; XXLout-7 ; XLin-2 ; XLout-8 ;
     Lin-3 ; Lout-9 ; Min-4 ; Mout-10 ; Sin-5 ; Sout-11 ; XSin-6 ; XSout-12.
-    So, edge capacity of all splitting nodes will be n.
+    So, edge capacity of all splitting nodes will be n. (FAQ-2)
 2.  Now, we've to take a global source 0. And all the sizes will be connected
-    to the global source with edge capacity infinity.
+    to the global source with edge capacity infinity.   (FAQ-1)
 3.  Then, we'll connect every contestant(12+1 to 12+m) with their desired size's t-shirt.
 4.  Then, we will connect every contestant(12+1 to 12+m) with the global sink
     12+m+1 with edge capacity 1 because each contestant can get exactly one t-shirt.
 5.  Finally, every contestant will get a suitable t-shirt if sink get at least
-    M flow.
+    M flow.     (FAQ-3)
 **/
 
 #define sz 121
