@@ -118,7 +118,11 @@ int FordFulkerson(int src,int des)
     }
     return mxFlow;
 }
-
+void addEdge(int u,int v)
+{
+    graph[u].pb(v);
+    graph[v].pb(u);
+}
 int main()
 {
     int i,j,k,u,v,c,src,des,ans;
@@ -128,8 +132,7 @@ int main()
         cin>>u>>v>>c;
         cap[u][v] += c;
         cap[v][u] += c;     /** This line means that the graph is bidirectional.If the graph is unidirectional & there're no edge v-u the cap[v][u]=0  **/
-        graph[u].pb(v);
-        graph[v].pb(u);     /** This line means that the graph is bidirectional. **/
+        
     }
     ans = FordFulkerson(src,des);
     cout<<ans<<endl;
