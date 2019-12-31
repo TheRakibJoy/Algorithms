@@ -132,7 +132,7 @@ int main()
         cin>>u>>v>>c;
         cap[u][v] += c;
         cap[v][u] += c;     /** This line means that the graph is bidirectional.If the graph is unidirectional & there're no edge v-u the cap[v][u]=0  **/
-        
+        addEdge(u,v);
     }
     ans = FordFulkerson(src,des);
     cout<<ans<<endl;
