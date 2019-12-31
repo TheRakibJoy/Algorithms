@@ -87,7 +87,7 @@ using namespace std;
 →	এরপর আবার এই আইস কিউব এর স্প্লিটিং এজ এর ক্যাপাশিটি m[i] করে দিবো। কারণ পরবর্তীতে এই কিউবে কোন পেঙ্গুইন আসা মানে সে এই কিউব থেকে লাফ দিয়ে অন্য কিউবে যাবে শুধু ল্যান্ড করেই ক্ষান্ত হবে না। আর একটা আইস কইবে সর্বোচ্চ m[i] সংখ্যক পেঙ্গুইন লাফ দিতে পারবে।
 এর বেশি দিলে আইস কিউব ভেঙ্গে সোজা সাগরের তলায় হিম শীতল পানিতে -_-
 **/
-
+/** এডজাসেন্ট লিস্ট ব্যাবহার করলে গ্রাফ ইউনিডিরেকশনাল হোক কিংবা বাইডিরেকহনাল, এজ দুইদিকেই যুক্ত করতে হবে। কারণ, ম্যাক্স ফ্লো তে ব্যাক এজ ব্যাবহার করে অপ্টিমাল সল্যুশন বের করতে হয়। ইউনিডিরেকশনাল হলে ক্যাপাসিটি এরে একমুখী হবে। তার মানে গ্রাফ একমুখী। এজন্য, লিস্টে দুইদিকে এজ যুক্ত করলেও সমস্যা হবে না। বরং দুইদিকে যুক্ত না করলে কাজ করবে না।  **/
 #define sz 205
 bool vis[sz];
 int n,e,x[sz],y[sz],peng[sz],icecap[sz],par[sz],cap[sz][sz],flow[sz][sz];
@@ -161,10 +161,10 @@ int main()
             sc("%d %d %d %d",&x[i],&y[i],&peng[i],&icecap[i]);
             if(peng[i] > 0){
                 cap[0][i] = peng[i];    /** IF there're penguin, then connect it with global source with edge cost peng[i] ; This edge will unidirectional **/
-                graph[0].pb(i);
+                addEdge(0 , i);
             }
             cap[i][num+i] = icecap[i];   /** Split the edge with icecap[i] edge cost because at most icecap[i] penguins can jump from this ice floe(Note that landing on an ice floe haven't any cost). And splitting is always unidirectional **/
-            graph[i].pb(num+i);
+            addEdge(i , num+i);
             totpeng += peng[i];
         }
 
@@ -190,7 +190,7 @@ int main()
             ms(flow , 0);
             cap[i][num+i] = infinity;       /** Landing on destination node haven't any cost. So, infinite number of penguins can go to global sink via this node **/
             cap[i+num][n] = infinity;      /** Only this node/sink will connected to the global sink, bcoz we want to know all the penguins can meet on this node or not? **/
-            graph[i+num].pb(n);
+            addEdge(i+num , n);
 
             int temp = FordFulkerson(0 , n);
 
