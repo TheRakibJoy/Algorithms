@@ -73,6 +73,9 @@ using namespace std;
 
 ///PlEaSe AvOiD InTeGeR OvErFlOw
 /**
+Problem:
+অফিসে বসের উপর প্রতিশোধ নিতে বসের কম্পিউটার এবং সার্ভার এর মধ্যকার সংযোগ বিচ্ছিন্ন করতে চাচ্ছেন আপনি। কিন্তু বসের কম্পিউটার কিংবা সার্ভারে সরাসরি হাত দেয়া যাবে না। এছাড়া এই সংযোগ এ থাকা অন্য কম্পিউটার গুলোর মধ্যকার তার কাটতে প্রয়োজনীয় কোস্ট দেয়া আছে। 
+সর্বনিম্ন কত খরচে বসের কম্পিউটার এর সাথে সার্ভার এর সংযোগ বিচ্ছন্ন করা যাবে? 
 Solution:
 1.  Here, every machine except BOSS & SERVER can be destroyed with a cost.
     So, we've to split out each of the nodes(machine). As,we can't destroy
