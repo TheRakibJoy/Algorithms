@@ -3,8 +3,8 @@ Standard Segment Tree Template-01
 
 Problem:    Circular Range Minimum Query with Lazy propagation
 You are given circular array a0,a1,...,an-1. There are two types of operations with it:
-1.  inc(left,right,val) — this operation increases each element on the segment [left,right] (inclusively) by val;
-2.  RMQ(left,right) — this operation returns minimal value on the segment [left,right] (inclusively).
+1.  inc(left,right,val) â€” this operation increases each element on the segment [left,right] (inclusively) by val;
+2.  RMQ(left,right) â€” this operation returns minimal value on the segment [left,right] (inclusively).
 Assume segments to be circular, so if n = 5 and left=3,right=1, it means the index sequence: 3,4,0,1.
 Write program to process given sequence of operations.
 **/
@@ -21,7 +21,7 @@ void push_down(ll node,ll b,ll e)
     }
     lazy[node] = 0;
 }
-void Build(ll node,ll b,ll e)
+void Build(ll node,ll b,ll e)   /** Build Tree for Range Minimum Query **/
 {
     if(b == e){
         tree[node] = ara[b];
@@ -34,7 +34,7 @@ void Build(ll node,ll b,ll e)
     Build(rgt , mid+1 , e);
     tree[node] = min(tree[lft] , tree[rgt]);
 }
-void Update(ll node,ll b,ll e,ll i,ll j,ll val)
+void Update(ll node,ll b,ll e,ll i,ll j,ll val)     /** Increase all the element in a range **/
 {
     if(lazy[node] != 0)
         push_down(node , b , e);
@@ -55,7 +55,7 @@ void Update(ll node,ll b,ll e,ll i,ll j,ll val)
     Update(rgt , mid+1 , e , i , j , val);
     tree[node] = min(tree[lft] , tree[rgt]);
 }
-ll Query(ll node,ll b,ll e,ll i,ll j)
+ll Query(ll node,ll b,ll e,ll i,ll j)   /** Range Minimum Query **/
 {
     if(i>e || j<b)
         return longlimit;
