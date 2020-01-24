@@ -80,6 +80,8 @@ bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
 /**
+How many horizontal lines are completely lies in segment l to r?
+
 Problem: CF-301D - Yaroslav and Divisors with segTree + Offline Query
 You're given an array with n distinct elements & q queries. In each query you'll given l[i],r[i]. You have to print the number of pairs of integers q,w(l[i]<=q,w<=r[i]) such that ara[q] is the divisor of ara[w].
 Solution:
