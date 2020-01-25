@@ -144,3 +144,7 @@ sort(v.begin(),v.end(),cmp);
 17. Call by reference is much faster than call by value.
 
 18. Missing type casting for size function result in RTE.
+
+19. In DP, dp[2][12] is more efficient than dp[12][2].
+
+20. In DP, calculating from bigger to smaller state is more efficient.(In that case we haven't memset dp array in every case.)
