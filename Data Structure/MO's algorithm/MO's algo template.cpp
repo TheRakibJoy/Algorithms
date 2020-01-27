@@ -90,7 +90,7 @@ struct info{
         if(blockno == pblockno)
             return r<p.r;
         else
-            blockno<pblockno;
+            return blockno<pblockno;
     }
 }query[sz];
 
