@@ -100,7 +100,7 @@ int BPM(int setA)
 {
     ms(Left , -1); ms(Right , -1); int m=setA;
     int cnt = 0;
-    for(int i=1 ; i<=m ; i++){  /// m-total node of left part(set A) of bipartite graph ; We can calculate the number of node of set A by bi-coloring the graph with two color white & black
+    for(int i=1 ; i<=m ; i++){  /// m-total node of left part(set A) of bipartite graph ; We can calculate the number of node of set A by bi-coloring the graph with two color white & black OR we can put total number of node of the given graph here
         ms(vis , 0);
         if(Kuhn(i))
             cnt++;
