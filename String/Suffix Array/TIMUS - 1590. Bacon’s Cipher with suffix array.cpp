@@ -79,61 +79,38 @@ bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-/** Suffix Array Template
-1.  Longest Common Substring of two string:
-    Create a new string str = s1+'@'+s2+'$'; Build its suffix array. len1 = s1.size() ; n = str.size()
-    for(i=1 ; i<n ; i++){
-        if((arr[i].idx<len1 && arr[i-1].idx>len1) || (arr[i-1].idx<len1 && arr[i].idx>len1))
-            ans = max(ans , lcp[i]);
-    }
-2.  IF you're given a string with length n(n = length without special character ; but u must have to add a special character that haven't used yet). Then number of unique substring of that string = ((n*(n+1))/2) - Summation of LCP Array ;
-**/
-#define sz 500005
+#define sz 100005
 struct info
 {
-    int tup[2],idx; /// tup[0]-previous rank ; tup[1]-new rank
+    int idx,tup[2];
     bool operator < (const info &p)const{
-        return (tup[0] != p.tup[0])? (tup[0] < p.tup[0]) : (tup[1] < p.tup[1]);
+        return (tup[0] != p.tup[0])? (tup[0] < p.tup[0]):(tup[1] < p.tup[1]);
     }
 }arr[sz];
-int step,Rank[20][sz],lcp[sz];
+int step=0,Rank[20][sz],lcp[sz];
 string str;
 
-void BuildSuffixArray() /// Complexity: O(n*(log(n))^2)
+void BuildSuffixArray()
 {
-    int jump , n=(int)str.size();
-    for(int j=0 ; j<n ; j++){       ///Give initial rank when suffixes r sorted by their first 2^0=1 character
-        Rank[0][j] = str[j];    ///Rank suffixes according to 1st char.
+    int jump,n=(int)str.size();
+    for(int j=0 ; j<n ; j++){
+        Rank[0][j] = str[j];
         ms(arr[j].tup , 0);
     }
     for(step=1,jump=1 ; jump<=n ; step++,(jump=jump<<1)){
         for(int j=0 ; j<=n ; j++){
             arr[j].idx = j;
-            arr[j].tup[0] = Rank[step-1][j];    ///What j was in previous step
-            arr[j].tup[1] = ((j+jump) < n)? Rank[step-1][j+jump] : -1;
+            arr[j].tup[0] = Rank[step-1][j];
+            arr[j].tup[1] = ((j+jump) < n)?Rank[step-1][j+jump]:-1;
         }
         sort(arr , arr+n);
         Rank[step][arr[0].idx] = 0;
         for(int j=1 ; j<n ; j++){
-            Rank[step][arr[j].idx] = (arr[j].tup[0] == arr[j-1].tup[0] && arr[j].tup[1] == arr[j-1].tup[1])? Rank[step][arr[j-1].idx] : j;
+            Rank[step][arr[j].idx] = (arr[j].tup[0]==arr[j-1].tup[0] && arr[j].tup[1]==arr[j-1].tup[1])? Rank[step][arr[j-1].idx]:j;
         }
     }
 }
-int LCP(int i,int j)    ///returns the length of LCP(Longest Common Prefix) of suffixes starting at index i and j in log(n)
-{
-    if(i == j)
-        return (int)str.size()-i;
-    int ans = 0;
-    for(int x=step-1 ; x>=0 ; x--){
-        if(Rank[x][i] == Rank[x][j]){
-            ans += (1<<x);
-            i += (1<<x);
-            j += (1<<x);
-        }
-    }
-    return ans;
-}
-void BuildLCP() /// Complexity: O(n log(n)) ; Calculate the LCP of two adjacent suffix from the lexicographically sorted suffix list
+void BuildLCP()
 {
     lcp[0] = 0;
     int i,j,id1,id2,n=(int)str.size();
@@ -150,18 +127,20 @@ void BuildLCP() /// Complexity: O(n log(n)) ; Calculate the LCP of two adjacent 
         }
     }
 }
+
 int main()
 {
-    int i,j,k,n,x,y;
+    ll i,j,k,n,tot,duplicate=0,ans;
     cin>>str;
-    str += '$';     /// Every time u must have to add an specialist character that haven't use in the string yet
+    str+='$';
+    n = (ll)str.size();
+    tot = (n*(n-1))/2;  /// length of original string = n-1
     BuildSuffixArray();
-    for(i=0 ; i<(int)str.size() ; i++)
-        cout<<arr[i].idx<<endl; ///Sorted suffix index
-    cin>>x>>y;
-    cout<<LCP(x , y)<<endl; ///LCP of suffix started at index x & y
     BuildLCP();
-    for(i=1 ; i<(int)str.size() ; i++)
-        cout<<lcp[i]<<endl; ///LCP of (i)th & (i-1)th suffix from the lexicographically sorted suffix list
+    for(i=0 ; i<n ; i++)
+        duplicate += lcp[i];
+    ans = tot-duplicate;
+    cout<<ans<<endl;
     return 0;
 }
+
