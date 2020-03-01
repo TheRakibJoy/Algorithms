@@ -64,12 +64,12 @@ using namespace std;
 //cout<<*X.find_by_order(0)<<endl; // 2 //cout<<*X.find_by_order(2)<<endl; // 4 //cout<<*X.find_by_order(4)<<endl; // 16 //cout<<(end(X)==X.find_by_order(6))<<endl; // true
 //cout<<X.order_of_key(-5)<<endl;  // 0 //cout<<X.order_of_key(1)<<endl;   // 0 //cout<<X.order_of_key(3)<<endl;   // 2 //cout<<X.order_of_key(4)<<endl;   // 2 //cout<<X.order_of_key(400)<<endl; // 5
 
-inline int add(int a, int b) {a += b; return a >= MOD ? a - MOD : a;}
-inline int sub(int a, int b) {a -= b; return a < 0 ? a + MOD : a;}
-inline int mul(int a, int b) {return (ll) a * b % MOD;}
-int Set(int N, int pos) {return  N = N | (1<<pos);}
-int Reset(int N, int pos) {return  N = N & ~(1<<pos);}
-bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
+//inline int add(int a, int b) {a += b; return a >= MOD ? a - MOD : a;}
+//inline int sub(int a, int b) {a -= b; return a < 0 ? a + MOD : a;}
+//inline int mul(int a, int b) {return (ll) a * b % MOD;}
+//int Set(int N, int pos) {return  N = N | (1<<pos);}
+//int Reset(int N, int pos) {return  N = N & ~(1<<pos);}
+//bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 
 ///------------------Graph Moves-------------------
 ///const int fx[] = {+1,-1,+0,+0};
@@ -79,53 +79,52 @@ bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-/** Suffix Array Template **/
-///1.   Longest Common Substring of two string:
-        Create a new string str = s1+'@'+s2+'$'; Build its suffix array. len1 = s1.size() ; n = str.size()
-        for(i=1 ; i<n ; i++){
-            if((arr[i].idx<len1 && arr[i-1].idx>len1) || (arr[i-1].idx<len1 && arr[i].idx>len1))
-                ans = max(ans , lcp[i]);
-        }
-///2.  IF you're given a string with length n(n = length without special character ; but u must have to add a special character that haven't used yet). Then number of unique substring of that string = ((n*(n+1))/2) - Summation of LCP Array ;
-///3.  Longest Repeating substring in a string is marked by the maximum value in the LCP array.
-///4.  Count the number of distinct substring of a given string s, those length between [p,q]
-        tot = (n*(n+1))/2;  /**Total number of substring**/
-        for(i=1 ; i<p ; i++)    /**Subtract the number of sub string those length are less than p**/
-            tot -= (n-i+1);
-        for(i=q+1 ; i<=n ; i++) /**Subtract the number of sub string those length are greater than q**/
-            tot -= (n-i+1);
-        for(i=1 ; i<=n ; i++){
-            if(lcp[i] >= q) /**Subtract duplicate substring of length [p,q]**/
-                tot -= (q-p+1);
-            else if(lcp[i] >= p)    /**Subtract duplicate substring of length [p,LCP[i]]**/
-                tot -= (lcp[i]-p+1);
-        }
-///Notes are end. Template begins here
-#define sz 500005
-struct info{
-    int tup[2],idx; /// tup[0]-previous rank ; tup[1]-new rank
+#define sz 1005
+struct info
+{
+    int tup[2],idx;
     bool operator < (const info &p)const{
         return (tup[0] != p.tup[0])? (tup[0] < p.tup[0]) : (tup[1] < p.tup[1]);
     }
 }arr[sz];
 int step,Rank[20][sz],lcp[sz];
+bool vis[1005];
 string str;
-void BuildSuffixArray(){ /// Complexity: O(n*(log(n))^2)
+
+void BuildSuffixArray()
+{
     int jump , n=(int)str.size();
-    for(int j=0 ; j<n ; j++){       ///Give initial rank when suffixes r sorted by their first 2^0=1 character
-        Rank[0][j] = str[j];    ///Rank suffixes according to 1st char.
+    for(int j=0 ; j<n ; j++){
+        Rank[0][j] = str[j];
         ms(arr[j].tup , 0);
     }
     for(step=1,jump=1 ; jump<=n ; step++,(jump=jump<<1)){
         for(int j=0 ; j<=n ; j++){
             arr[j].idx = j;
-            arr[j].tup[0] = Rank[step-1][j];    ///What j was in previous step
+            arr[j].tup[0] = Rank[step-1][j];
             arr[j].tup[1] = ((j+jump) < n)? Rank[step-1][j+jump] : -1;
         }
         sort(arr , arr+n);
         Rank[step][arr[0].idx] = 0;
         for(int j=1 ; j<n ; j++){
             Rank[step][arr[j].idx] = (arr[j].tup[0] == arr[j-1].tup[0] && arr[j].tup[1] == arr[j-1].tup[1])? Rank[step][arr[j-1].idx] : j;
+        }
+    }
+}
+void BuildLCP()
+{
+    lcp[0] = 0;
+    int i,j,id1,id2,n=(int)str.size();
+    for(i=1 ; i<n ; i++){
+        id1 = arr[i-1].idx;
+        id2 = arr[i].idx;
+        lcp[i] = 0;
+        for(j=step-1 ; j>=0 ; j--){
+            if(Rank[j][id1] == Rank[j][id2] && Rank[j][id2]){
+                lcp[i] += (1<<j);
+                id1 += (1<<j);
+                id2 += (1<<j);
+            }
         }
     }
 }
@@ -143,35 +142,58 @@ int LCP(int i,int j)    ///returns the length of LCP(Longest Common Prefix) of s
     }
     return ans;
 }
-void BuildLCP() /// Complexity: O(n log(n)) ; Calculate the LCP of two adjacent suffix from the lexicographically sorted suffix list
-{
-    lcp[0] = 0;
-    int i,j,id1,id2,n=(int)str.size();
-    for(i=1 ; i<n ; i++){
-        id1 = arr[i-1].idx;
-        id2 = arr[i].idx;
-        lcp[i] = 0;
-        for(j=step-1 ; j>=0 ; j--){
-            if(Rank[j][id1] == Rank[j][id2] && Rank[j][id2]){
-                lcp[i] += (1<<j);
-                id1 += (1<<j);
-                id2 += (1<<j);
-            }
-        }
-    }
-}
 int main()
 {
-    int i,j,k,n,x,y;
-    cin>>str;
-    str += '$';     /// Every time u must have to add an specialist character that haven't use in the string yet
-    BuildSuffixArray();
-    for(i=0 ; i<(int)str.size() ; i++)
-        cout<<arr[i].idx<<endl; ///Sorted suffix index
-    cin>>x>>y;
-    cout<<LCP(x , y)<<endl; ///LCP of suffix started at index x & y
-    BuildLCP();
-    for(i=1 ; i<(int)str.size() ; i++)
-        cout<<lcp[i]<<endl; ///LCP of (i)th & (i-1)th suffix from the lexicographically sorted suffix list
+//    Output;
+    bool fg = 0;
+    string s1,s2;
+    while(cin>>s1>>s2){
+        ms(vis , 0);
+        int i,j,k,n,ans=0,len1,len2;
+        vi v,v2;
+        str = s1;
+        str += '@';
+        str += s2;
+        str += '$';
+        len1 = (int)s1.size();
+        n = (int)str.size();
+        BuildSuffixArray();
+        BuildLCP();
+        for(i=1 ; i<n ; i++){
+            if(lcp[i]>ans && ((arr[i].idx<len1 && arr[i-1].idx>len1) || (arr[i].idx>len1 && arr[i-1].idx<len1))){
+                ans = lcp[i];
+            }
+        }
+        for(i=0 ; i<len1 ; i++){
+            for(j=len1+1 ; j<n-1 ; j++){
+                if(!vis[i] && !vis[j] && LCP(i,j)==ans){
+                    vis[i] = vis[j] = 1;
+                    v.pb(i);
+                }
+            }
+        }
+        for(i=0 ; i<n ; i++){
+            if(arr[i].idx<len1 && vis[arr[i].idx])
+                v2.pb(arr[i].idx);
+        }
+        if(fg)
+            pf("\n");
+        int vecsz = (int)v2.size();
+        set<string>st;
+        for(i=0 ; ans>0 && i<vecsz ; i++){
+            int start = v2[i];
+            string s = "";
+            for(j=start ; j<start+ans ; j++)
+                s += str[j];
+            st.insert(s);
+        }
+        for(auto x:st)
+            cout<<x<<endl;
+        if(ans == 0)
+            pf("No common sequence.\n");
+        fg = 1;
+    }
     return 0;
 }
+
+
