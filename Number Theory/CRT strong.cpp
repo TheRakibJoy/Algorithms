@@ -107,8 +107,8 @@ pll CRTStrong(ll n)
         /** Merge the two equation **/
         ll p,q;
         ext_gcd(m1/g , m2/g , &p , &q);
-        ll mod = lcm(m1 , m2);
-        ll x = ( (__int64)a1 * (m2/g) % mod *q % mod + (__int64)a2 * (m1/g) % mod * p % mod ) % mod;    ///Careful about overflow
+        ll mod = m1 / g * m2;   ///LCM(m1 , m2)
+        ll x = ( (__int128)a1 * (m2/g) % mod *q % mod + (__int128)a2 * (m1/g) % mod * p % mod ) % mod;    ///Careful about overflow ; This line can't be compiled in GCC compiler but don't worry. It'll accepted.
 
         /** Merged equation **/
         a1 = (x+mod)%mod;
