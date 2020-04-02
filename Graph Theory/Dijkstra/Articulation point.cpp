@@ -81,9 +81,9 @@ void DFSAP(int u)
             DFSAP(v);
 
             low[u]=min(low[u],low[v]);
-            if(par[u]!=-1 && low[v]>=disc[u])   /** USE low[v] > disc[u] when it u want to calculate articulation bridges & mutiple aren't allowed between two nodes **/
+            if(par[u]!=-1 && low[v]>=disc[u])   /** USE low[v] > disc[u] when u want to calculate articulation bridges & mutiple edges aren't allowed between two nodes ; then u-v is the articulation bridge**/
                 AP[u]=1;
-            if(par[u]==-1 && child>1)
+            if(par[u]==-1 && child>1)   /** Next two line from now aren't necessary for articulation bridges **/
                 AP[u]=1;
         }
         else if(v != par[u])
