@@ -82,9 +82,8 @@ bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-/** Matrix Exponentiation Template (Sample for Fibonacci) **/
-
-const int mod = 10000;
+const int ara[4] = {10 , 100 , 1000 , 10000};
+int mod;
 
 struct matrix
 {
@@ -92,7 +91,7 @@ struct matrix
     int row,col;
 };
 
-matrix Mat_Mul(matrix &A,matrix &B)
+matrix Mat_Mul(matrix A , matrix B)
 {
     matrix C;
     C.row = A.row;
@@ -101,14 +100,14 @@ matrix Mat_Mul(matrix &A,matrix &B)
         for(int j=1 ; j<=C.col ; j++){
             ll sum = 0;
             for(int k=1 ; k<=A.col ; k++)
-                sum = ( (sum%mod) + ((A.mat[i][k] * B.mat[k][j])%mod) )%mod;
+                sum = ((sum%mod) + (A.mat[i][k] * B.mat[k][j])%mod)%mod;
             C.mat[i][j] = sum;
         }
     }
     return C;
 }
 
-matrix Mat_Expo(matrix A , ll n)
+matrix Mat_Expo(matrix A,int n)
 {
     if(n == 1)
         return A;
@@ -117,14 +116,14 @@ matrix Mat_Expo(matrix A , ll n)
     if(n%2 == 0)
         return ret;
     else
-        return Mat_Mul(A , ret);
+        return Mat_Mul(ret , A);
 }
 
 void Solve(int t)
 {
-    int n;
-    scin(n);
-
+    int i,j,k,a,b,n,digit;
+    sc("%d %d %d %d",&a,&b,&n,&digit);
+    mod = ara[digit-1];
     matrix A,B,ret;
 
     A.row = A.col = 2;
@@ -132,19 +131,19 @@ void Solve(int t)
     A.mat[2][1] = 1; A.mat[2][2] = 1;
 
     B.row = B.col = 1;
-    B.mat[1][1] = 0;
-    B.mat[2][1] = 1;
+    B.mat[1][1] = a;
+    B.mat[2][1] = b;
 
     ret = Mat_Expo(A , n);
     ret = Mat_Mul(ret , B);
 
-    pf("Last 4 digit of fibonacci(%d) = %d\n",n,ret.mat[1][1]);
+    pf("Case %d: %lld\n",t,ret.mat[1][1]);
 }
 
 int main()
 {
     int t,T;
-    T = 1;
+    scin(T);
     RUN_CASE(t,T)
     {
         Solve(t);
