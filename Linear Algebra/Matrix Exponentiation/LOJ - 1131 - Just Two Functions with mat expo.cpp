@@ -82,33 +82,29 @@ bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
-/** Matrix Exponentiation(A great DP optimization tricks) Template (Sample for Fibonacci) **/
-
-const int mod = 10000;
-
+ll mod;
 struct matrix
 {
-    ll mat[11][11];
-    int row,col;
+    ll mat[20][20];
+    ll row,col;
 };
 
-matrix Mat_Mul(matrix &A,matrix &B)
+matrix Mat_Mul(matrix &A , matrix &B)
 {
     matrix C;
-    C.row = A.row;
-    C.col = B.col;
-    for(int i=1 ; i<=C.row ; i++){
-        for(int j=1 ; j<=C.col ; j++){
+    C.row = A.row; C.col = B.col;
+    for(ll i=1 ; i<=C.row ; i++){
+        for(ll j=1 ; j<=C.col ; j++){
             ll sum = 0;
-            for(int k=1 ; k<=A.col ; k++)
-                sum = ( (sum%mod) + ((A.mat[i][k] * B.mat[k][j])%mod) )%mod;
-            C.mat[i][j] = sum;
+            for(ll k=1 ; k<=A.col ; k++)
+                sum = ((sum%mod) + ( (A.mat[i][k]%mod)*(B.mat[k][j]%mod) )%mod)%mod;
+            C.mat[i][j] = sum%mod;
         }
     }
     return C;
 }
 
-matrix Mat_Expo(matrix A , ll n)
+matrix Mat_Expo(matrix A ,int n)
 {
     if(n == 1)
         return A;
@@ -117,34 +113,49 @@ matrix Mat_Expo(matrix A , ll n)
     if(n%2 == 0)
         return ret;
     else
-        return Mat_Mul(ret , A);
+        return Mat_Mul(A , ret);
 }
 
 void Solve(int t)
 {
-    int n;
-    scin(n);
+    ll i,j,k,a1,b1,c1,a2,b2,c2,f[3],g[3],ans,q,n;
+    sc("%lld %lld %lld",&a1,&b1,&c1);
+    sc("%lld %lld %lld",&a2,&b2,&c2);
+    sc("%lld %lld %lld",&f[0],&f[1],&f[2]);
+    sc("%lld %lld %lld",&g[0],&g[1],&g[2]);
+    scln2(mod , q);
 
     matrix A,B,ret;
+    A.row = A.col = 6;
+    A.mat[1][2] = 1; A.mat[1][1] = A.mat[1][3] = A.mat[1][4] = A.mat[1][5] = A.mat[1][6] = 0;
+    A.mat[2][3] = 1; A.mat[2][1] = A.mat[2][2] = A.mat[2][4] = A.mat[2][5] = A.mat[2][6] = 0;
+    A.mat[3][2] = b1; A.mat[3][3] = a1; A.mat[3][4] = c1; A.mat[3][1] = A.mat[3][5] = A.mat[3][6] = 0;
+    A.mat[4][5] = 1; A.mat[4][1] = A.mat[4][2] = A.mat[4][3] = A.mat[4][4] = A.mat[4][6] = 0;
+    A.mat[5][6] = 1; A.mat[5][1] = A.mat[5][2] = A.mat[5][3] = A.mat[5][4] = A.mat[5][5] = 0;
+    A.mat[6][1] = c2; A.mat[6][5] = b2; A.mat[6][6] = a2; A.mat[6][2] = A.mat[6][3] = A.mat[6][4] = 0;
 
-    A.row = A.col = 2;
-    A.mat[1][1] = 0; A.mat[1][2] = 1;
-    A.mat[2][1] = 1; A.mat[2][2] = 1;
+    B.row = 6; B.col = 1;
+    B.mat[1][1] = f[0]; B.mat[2][1] = f[1]; B.mat[3][1] = f[2];
+    B.mat[4][1] = g[0]; B.mat[5][1] = g[1]; B.mat[6][1] = g[2];
 
-    B.row = 2; B.col = 1;
-    B.mat[1][1] = 0;
-    B.mat[2][1] = 1;
-
-    ret = Mat_Expo(A , n);
-    ret = Mat_Mul(ret , B);
-
-    pf("Last 4 digit of fibonacci(%d) = %d\n",n,ret.mat[1][1]);
+    pf("Case %d:\n",t);
+    for(i=1 ; i<=q ; i++){
+        scln(n);
+        if(n <= 2){
+            pf("%lld %lld\n",f[n]%mod,g[n]%mod);
+        }
+        else{
+            ret = Mat_Expo(A , n);
+            ret = Mat_Mul(ret , B);
+            pf("%lld %lld\n",ret.mat[1][1],ret.mat[4][1]);
+        }
+    }
 }
 
 int main()
 {
     int t,T;
-    T = 1;
+    scin(T);
     RUN_CASE(t,T)
     {
         Solve(t);
