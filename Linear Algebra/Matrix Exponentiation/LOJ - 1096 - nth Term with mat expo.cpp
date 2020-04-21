@@ -83,40 +83,41 @@ bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
 /**
-f(n) = a1 * f(n-1) + b1 * f(n-2) + c1 * g(n-3)
-g(n) = a2 * g(n-1) + b2 * g(n-2) + c2 * f(n-3)
+f(n) = a * f(n-1) + b * f(n-3) + c , if(n>2)
+f(n) = 0 , if(n<=2)
 
-| 0  1  0  0  0  0  |   | f0 |   | f1 |
-| 0  0  1  0  0  0  |   | f1 |   | f2 |
-| 0  b1 a1 c1 0  0  | * | f2 | = | f3 |
-| 0  0  0  0  1  0  |   | g0 |   | g1 |
-| 0  0  0  0  0  1  |   | g1 |   | g2 |
-| c2 0  0  0  b2 a2 |   | g2 |   | g3 |
-
+| 0 1 0 0 0 0 |   | f0 = 0       |   | f1 |
+| 0 0 1 0 0 0 |   | f1 = 0       |   | f2 |
+| 0 0 0 1 0 0 | * | f2 = 0       | = | f3 |
+| 0 0 0 0 1 0 |   | f3 = c       |   | f4 |
+| 0 0 b 0 a 1 |   | f4 = (a*c)+c |   | f5 |
+| 0 0 0 0 0 1 |   | c = c        |   | c  |
 **/
-ll mod;
+const int mod = 10007;
+
 struct matrix
 {
-    ll mat[20][20];
-    ll row,col;
+    ll mat[11][11];
+    int row,col;
 };
 
 matrix Mat_Mul(matrix &A , matrix &B)
 {
     matrix C;
-    C.row = A.row; C.col = B.col;
-    for(ll i=1 ; i<=C.row ; i++){
-        for(ll j=1 ; j<=C.col ; j++){
+    C.row = A.row;
+    C.col = B.col;
+    for(int i=1 ; i<=C.row ; i++){
+        for(int j=1 ; j<=C.col ; j++){
             ll sum = 0;
-            for(ll k=1 ; k<=A.col ; k++)
-                sum = ((sum%mod) + ( (A.mat[i][k]%mod)*(B.mat[k][j]%mod) )%mod)%mod;
+            for(int k=1 ; k<=A.col ; k++)
+                sum = ((sum%mod) + (A.mat[i][k]*B.mat[k][j])%mod)%mod;
             C.mat[i][j] = sum%mod;
         }
     }
     return C;
 }
 
-matrix Mat_Expo(matrix A ,int n)
+matrix Mat_Expo(matrix A , int n)
 {
     if(n == 1)
         return A;
@@ -125,42 +126,35 @@ matrix Mat_Expo(matrix A ,int n)
     if(n%2 == 0)
         return ret;
     else
-        return Mat_Mul(A , ret);
+        return Mat_Mul(ret , A);
 }
 
 void Solve(int t)
 {
-    ll i,j,k,a1,b1,c1,a2,b2,c2,f[3],g[3],ans,q,n;
-    sc("%lld %lld %lld",&a1,&b1,&c1);
-    sc("%lld %lld %lld",&a2,&b2,&c2);
-    sc("%lld %lld %lld",&f[0],&f[1],&f[2]);
-    sc("%lld %lld %lld",&g[0],&g[1],&g[2]);
-    scln2(mod , q);
+    int i,j,k,n,a,b,c,ans;
+    scin(n);
+    sc("%d %d %d",&a,&b,&c);
 
     matrix A,B,ret;
+
     A.row = A.col = 6;
-    A.mat[1][2] = 1; A.mat[1][1] = A.mat[1][3] = A.mat[1][4] = A.mat[1][5] = A.mat[1][6] = 0;
-    A.mat[2][3] = 1; A.mat[2][1] = A.mat[2][2] = A.mat[2][4] = A.mat[2][5] = A.mat[2][6] = 0;
-    A.mat[3][2] = b1; A.mat[3][3] = a1; A.mat[3][4] = c1; A.mat[3][1] = A.mat[3][5] = A.mat[3][6] = 0;
-    A.mat[4][5] = 1; A.mat[4][1] = A.mat[4][2] = A.mat[4][3] = A.mat[4][4] = A.mat[4][6] = 0;
-    A.mat[5][6] = 1; A.mat[5][1] = A.mat[5][2] = A.mat[5][3] = A.mat[5][4] = A.mat[5][5] = 0;
-    A.mat[6][1] = c2; A.mat[6][5] = b2; A.mat[6][6] = a2; A.mat[6][2] = A.mat[6][3] = A.mat[6][4] = 0;
+    A.mat[1][1] = 0; A.mat[1][2] = 1; A.mat[1][3] = 0; A.mat[1][4] = 0; A.mat[1][5] = 0; A.mat[1][6] = 0;
+    A.mat[2][1] = 0; A.mat[2][2] = 0; A.mat[2][3] = 1; A.mat[2][4] = 0; A.mat[2][5] = 0; A.mat[2][6] = 0;
+    A.mat[3][1] = 0; A.mat[3][2] = 0; A.mat[3][3] = 0; A.mat[3][4] = 1; A.mat[3][5] = 0; A.mat[3][6] = 0;
+    A.mat[4][1] = 0; A.mat[4][2] = 0; A.mat[4][3] = 0; A.mat[4][4] = 0; A.mat[4][5] = 1; A.mat[4][6] = 0;
+    A.mat[5][1] = 0; A.mat[5][2] = 0; A.mat[5][3] = b; A.mat[5][4] = 0; A.mat[5][5] = a; A.mat[5][6] = 1;
+    A.mat[6][1] = 0; A.mat[6][2] = 0; A.mat[6][3] = 0; A.mat[6][4] = 0; A.mat[6][5] = 0; A.mat[6][6] = 1;
 
     B.row = 6; B.col = 1;
-    B.mat[1][1] = f[0]; B.mat[2][1] = f[1]; B.mat[3][1] = f[2];
-    B.mat[4][1] = g[0]; B.mat[5][1] = g[1]; B.mat[6][1] = g[2];
+    B.mat[1][1] = B.mat[2][1] = B.mat[3][1] = 0;
+    B.mat[4][1] = c; B.mat[5][1] = (a*c)+c; B.mat[6][1] = c;
 
-    pf("Case %d:\n",t);
-    for(i=1 ; i<=q ; i++){
-        scln(n);
-        if(n <= 2){
-            pf("%lld %lld\n",f[n]%mod,g[n]%mod);
-        }
-        else{
-            ret = Mat_Expo(A , n);
-            ret = Mat_Mul(ret , B);
-            pf("%lld %lld\n",ret.mat[1][1],ret.mat[4][1]);
-        }
+    if(n <= 2)
+        pf("Case %d: 0\n",t);
+    else{
+        ret = Mat_Expo(A , n);
+        ret = Mat_Mul(ret , B);
+        pf("Case %d: %lld\n",t,ret.mat[1][1]);
     }
 }
 

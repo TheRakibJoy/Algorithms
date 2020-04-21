@@ -82,6 +82,14 @@ bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
+/**
+f0 = a; f1 = b; f(n) = f(n-1)+f(n-2) , n>1
+
+| 0 1 | * | f0 = a | = | f1 |
+| 1 1 |   | f1 = b |   | f2 |
+
+**/
+
 const int ara[4] = {10 , 100 , 1000 , 10000};
 int mod;
 
