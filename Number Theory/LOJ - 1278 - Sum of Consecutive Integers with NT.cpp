@@ -69,6 +69,8 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
+/** Polite number **/
+
 bool mark[10000005];
 vi Prime;
 map<ll,int>fre;
