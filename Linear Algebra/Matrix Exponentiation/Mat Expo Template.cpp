@@ -93,7 +93,7 @@ struct matrix
     int row,col;
 };
 
-matrix Mat_Mul(const matrix &A,const matrix &B)
+matrix Mat_Mul(const matrix &A,const matrix &B) /** Use reference to reduce time complexity & constant for remaining the matrices unchanged **/
 {
     matrix C;
     C.row = A.row;
