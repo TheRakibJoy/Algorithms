@@ -83,6 +83,7 @@ bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
 /** Matrix Exponentiation(A great DP optimization tricks) Template (Sample for Fibonacci) **/
+/** IF there're multiple testcase in a problem & base matrix A is same for all test cases, then we can precaltulate (A^1) , (A^2) , (A^4) , (A^8) , (A^16) , .... to reduce time complexity **/
 
 const int mod = 10000;
 
