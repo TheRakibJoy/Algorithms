@@ -92,7 +92,7 @@ struct matrix
     int row,col;
 };
 
-matrix Mat_Mul(matrix &A,matrix &B)
+matrix Mat_Mul(const matrix &A,const matrix &B)
 {
     matrix C;
     C.row = A.row;
@@ -108,7 +108,7 @@ matrix Mat_Mul(matrix &A,matrix &B)
     return C;
 }
 
-matrix Mat_Expo(matrix A , ll n)
+matrix Mat_Expo(const matrix &A , ll n)
 {
     if(n == 1)
         return A;
