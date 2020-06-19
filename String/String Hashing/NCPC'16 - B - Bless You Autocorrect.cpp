@@ -44,7 +44,7 @@
 #define rev(i,a,b)              for(__typeof(i) i=a;i>=b;i--)
 
 using namespace std;
-
+/** Link: https://codeforces.com/gym/101550/attachments **/
 /** TRIE + Hashing + BS **/
 /** Problem statement: https://vj.z180.cn/4703efd24c7dd00c82e6081ff904cc0d?v=1591990470
     Link for submit: https://vjudge.net/contest/378643#problem/J ; Password: hash_it **/
