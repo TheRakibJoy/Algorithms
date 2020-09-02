@@ -33,11 +33,11 @@
 #define RUN_CASE(t,T)           for(__typeof(t) t=1;t<=T;t++)
 #define CASE(t)                 printf("Case %d: ",t)
 #define CASEl(t)                printf("Case %d:\n",t)
-#define intlimit                214748369
-#define longlimit               92233720368547758
+#define intlimit                2147483690
+#define longlimit               9223372036854775800
 #define infinity                (1<<28)
 #define gcd(a,b)                __gcd(a,b)
-#define lcm(a,b)                ((a)*(b))/gcd(a,b)
+#define lcm(a,b)                (a)*(b)/gcd(a,b)
 #define mxx                     123456789
 #define PI                      2*acos(0.0)
 #define rep(i,a,b)              for(__typeof(i) i=a;i<=b;i++)
@@ -47,13 +47,15 @@ using namespace std;
 /**     toint, tostring, BigMod, Power , sieve, Primefactorize ,frequency in n!     **/
 //ll toint(string s){ll n=0,k=1;for(int i=s.size()-1; i>=0; i--){n += ((s[i]-'0')*k);k*=10;}return n;}
 //string tostring(ll x){string s="";while(x){s += (x%10)+'0';x/=10;}reverse(s.begin(),s.end());return s;}
-//ll BigMod(ll a,ll b,ll m){if(b == 0)return 1%m;else if(b%2 == 0){ll temp=BigMod(a,b/2,m);return ((temp%m)*(temp%m))%m;}else{return ((a%m)*BigMod(a,b-1,m)%m)%m;}}
-//ll frequency(ll n,ll factor)/** Frequency of a factor in n! **/{ll cnt=0;while(n){cnt += (n/factor);n /= factor;}return cnt;}
-//ll power(ll a,ll n){ll ans=1;if(n == 0)return 1;else if(n == 1)return a;else return a*power(a,n-1);}
-//vector<ll>Prime;bool mark[10000009];
+//ll BigMod(ll a,ll b){if(b == 0)return 1%MOD;else if(b%2 == 0){ll temp=BigMod(a,b/2);return ((temp%MOD)*(temp%MOD))%MOD;}else{return ((a%MOD)*BigMod(a,b-1)%MOD)%MOD;}}
+//ll Power(ll a,ll n){ll ret=1;for(ll i=1 ; i<=n ; i++)ret = ((ret%MOD)*(a%MOD))%MOD;return ret;}
+//bool isPrime(ll n){for(ll i=2 ; i*i<=n ; i++){if(n%i == 0)return 0;}return 1;}
+//vector<ll>Prime;
+//bool mark[10000003];
 //void sieve(ll n){ll i,j;mark[1]=1;for(i=4; i<=n; i+=2)mark[i]=1;Prime.push_back(2);for(i=3; i<=n; i+=2){if(!mark[i]){Prime.push_back(i);if(i*i<=n){for(j=i*i; j<=n; j+=(i*2))mark[j]=1;}}}}
-//vector<ll>List;
-//void Primefactorize(ll n){for(ll i=0; Prime[i]*Prime[i]<=n; i++){if(n%Prime[i] == 0){while(n%Prime[i] == 0){List.push_back(Prime[i]);n/=Prime[i];}}}if(n>1){List.push_back(n);}}
+//map<ll,ll>Factor;
+//void Primefactorize(ll n){for(ll i=0; i<Prime.size() && Prime[i]*Prime[i]<=n; i++){if(n%Prime[i] == 0){while(n%Prime[i] == 0){Factor[Prime[i]]++;n/=Prime[i];}}}if(n>1){Factor[n]++;}}
+//ll frequency(ll n,ll factor)/** Frequency of a factor in n! **/{ll cnt=0;while(n){cnt += (n/factor);n /= factor;}return cnt;}
 /**     Order Set       **/
 //#include <ext/pb_ds/assoc_container.hpp>
 //using namespace __gnu_pbds;
@@ -62,6 +64,28 @@ using namespace std;
 //orderset<int> X; //X.insert(1); //X.insert(2); //X.insert(4); //X.insert(8); //X.insert(16);
 //cout<<*X.find_by_order(0)<<endl; // 2 //cout<<*X.find_by_order(2)<<endl; // 4 //cout<<*X.find_by_order(4)<<endl; // 16 //cout<<(end(X)==X.find_by_order(6))<<endl; // true
 //cout<<X.order_of_key(-5)<<endl;  // 0 //cout<<X.order_of_key(1)<<endl;   // 0 //cout<<X.order_of_key(3)<<endl;   // 2 //cout<<X.order_of_key(4)<<endl;   // 2 //cout<<X.order_of_key(400)<<endl; // 5
+
+/** Debugging Tool **/
+#define error(args...) { string _s = #args; replace(_s.begin(), _s.end(), ',', ' '); stringstream _ss(_s); istream_iterator<string> _it(_ss); err(_it, args); }
+void err(istream_iterator<string> it) {}
+template<typename T, typename... Args>
+void err(istream_iterator<string> it, T a, Args... args)
+{
+    cerr << *it << " = " << a << endl;
+    err(++it, args...);
+}
+///
+
+inline int add(int a, int b) {a += b; return a >= MOD ? a - MOD : a;}
+inline int sub(int a, int b) {a -= b; return a < 0 ? a + MOD : a;}
+inline int mul(int a, int b) {return (ll) a * b % MOD;}
+int Set(int N, int pos) {return  N = N | (1<<pos);}
+int Reset(int N, int pos) {return  N = N & ~(1<<pos);}
+bool Cheek(int N, int pos) {return  (bool)(N & (1<<pos));}
+
+//string small = "abcdefghijklmnopqrstuvwxyz";
+//string capital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 ///------------------Graph Moves-------------------
 ///const int fx[] = {+1,-1,+0,+0};
 ///const int fy[] = {+0,+0,+1,-1};
@@ -70,8 +94,23 @@ using namespace std;
 ///const int fx[] = {-2,-2,-1,-1,+1,+1,+2,+2}; ///Knight's move
 ///const int fy[] = {-1,+1,-2,+2,-2,+2,-1,+1}; ///Knight's move
 
+///Use ll to avoid integer overflow
+
+void Solve(int t)
+{
+    ;
+}
 
 int main()
 {
+    int t,T;
+    T = 1;
+//    cin>>T;
+    RUN_CASE(t,T)
+    {
+        Solve(t);
+    }
     return 0;
 }
+
+
