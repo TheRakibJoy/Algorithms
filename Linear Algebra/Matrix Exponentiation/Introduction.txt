@@ -32,7 +32,7 @@ Solution:   |0  1   0   0   0|      |f(0)   |       |f(1)|
             |0  0   1   0   0|      |f(1)   |       |f(2)|
             |0  0   0   1   0|  *   |f(2)   |   =   |f(3)|
             |0  b   0   a   1|      |f(3)   |       |f(4)|
-            |0  0   0   0   1|      |  c    |       | c  |
+            |0  0   0   0   1|      |  c    |       | c  |            
             
 Problem-5:  Reccurrence Relation:  f(n) = a*f(n-1) + b*g(n-2) + c*f(n-3) and g(n) = d*f(n-1) + e*g(n-2) + p*g(n-3)
 Solution:   |0  1   0   0   0   0|      |f(0)|      |f(1)|
@@ -49,3 +49,7 @@ Solution:   |0  1   0   0|      |f0|        |f1|
             |0  0   0   1|  *   |s0|    =   |s1|
             |1  1   0   1|      |s1|        |s2|
             
+Problem-7:  Sometimes we can apply mat expo to solve a problem that even hasn't any reccurrence relation. Suppose, you're given a graph. You've to find the number of exactly n-length path. Here, a node can repeat in a path.
+Solution:   First, calculate [A]^n where A is an adjanency matrix. Then count number of pairs(i<j) for which there is a path from node i to j.
+
+Problem-8: 
