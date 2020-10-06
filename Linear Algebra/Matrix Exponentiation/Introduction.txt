@@ -20,4 +20,18 @@ Solution:   |0  1   0|   |f(0)|     |f(1)|
             |0  0   1| * |f(1)| =   |f(2)|
             |b  a   c|   |f(2)|     |f(3)|
             
-Problem-3: Reccurence Relation:            
+Problem-3: Reccurence Relation: f(n) = f(n-1) + f(n-5)
+Solution:   |1  0   0   0   0|      |f(0)|      |f(1)|
+            |0  1   0   0   0|      |f(1)|      |f(2)|
+            |0  0   1   0   0|  *   |f(2)|  =   |f(3)|
+            |0  0   0   1   0|      |f(3)|      |f(4)|
+            |1  0   0   0   1|      |f(4)|      |f(5)|
+
+Problem-4:  Reccurrence Relation: f(n) = a*f(n-1) + b*f(n-3) + c. f(n) = 0 where n <= 2
+Solution:   |0  1   0   0   0|      |f(0)   |       |f(1)|
+            |0  0   1   0   0|      |f(1)   |       |f(2)|
+            |0  0   0   1   0|  *   |f(2)   |   =   |f(3)|
+            |0  b   0   a   1|      |f(3)   |       |f(4)|
+            |0  0   0   0   1|      |  c    |       | c  |
+            
+Problem-5:  Reccurrence Relation:           
