@@ -11,3 +11,13 @@
    f(n) = n*f(n-1) লিনিয়ার রিকারেন্স না, কারণ এখানে n is not a constant,its a variable.
    
    
+Problem-1: Reccurence Relation: f(n) = f(n-1)+f(n-2)
+Solution:   |0  1|   | f(0) |    | f(1) |
+            |1  1| * | f(1) | =  | f(2) |
+   
+Problem-2: Reccurence Relation: f(n) = c*f(n-1) + b*f(n-2) + a*f(n-3)
+Solution:   |0  1   0|   |f(0)|     |f(1)|
+            |0  0   1| * |f(1)| =   |f(2)|
+            |b  a   c|   |f(2)|     |f(3)|
+            
+Problem-3: Reccurence Relation:            
