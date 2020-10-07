@@ -52,4 +52,13 @@ Solution:   |0  1   0   0|      |f0|        |f1|
 Problem-7:  Sometimes we can apply mat expo to solve a problem that even hasn't any reccurrence relation. Suppose, you're given a graph. You've to find the number of exactly n-length path. Here, a node can repeat in a path.
 Solution:   First, calculate [A]^n where A is an adjanency matrix. Then count number of pairs(i<j) for which there is a path from node i to j.
 
-Problem-8: 
+Problem-8:  Given the value of a+b and ab you will have to find the value of a^n+b^n
+Solution:   Recurrence relation:
+            (a^0)+(b^0) = 1+1 = 2
+            (a^1)+(b^1) = (a^0+b^0)*(a+b) - ab*(a^-1 + b^-1) = a+b
+            (a^2)+(b^2) = (a+b)*(a+b) - ab*(a^0+b^0)
+            (a^3)+(b^3) = (a^2+b^2)*(a+b) - ab*(a+b)
+            (a^4)+(b^4) = (a^3+b^3)*(a+b) - ab*(a^2+b^2)
+            f(n) = f(n-1)*p - q*f(n-2) where p = (a+b) and q = ab
+            
+            
