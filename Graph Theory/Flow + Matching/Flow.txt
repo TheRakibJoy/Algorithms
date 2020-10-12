@@ -1,0 +1,6 @@
+Property of Flow:
+
+1. Total flow stored in sink is equal to max flow.
+2. Total flow released from source is equal to total flow stored in sink.
+3. For any internal node(node those are not source nor sink), inside flow = outside flow.
+4. flow[u][v] = -flow[v][u]
