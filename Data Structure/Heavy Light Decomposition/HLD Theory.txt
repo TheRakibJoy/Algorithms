@@ -1,0 +1,24 @@
+HLD BACS Tutorial: https://www.youtube.com/watch?v=0v--9nEFfAM&t=4011s
+
+1. HLD split the tree into several path(vertex-disjoint chains-Meaning no two chain has a node in common)
+2. For any node v, it can reach root by traversing at most logn path(logn chain)
+
+
+Terminology related to HLD:
+1. Heavy Edge: IF subtreesizeof(child) >= subtreesizeof(parent)/2, then (u,v) is a heavy edge. Parent node can have at most one heavy edge.
+2. Light Edge: All the other edges are light edge.
+
+Information you must store:
+Given a node, to which chain does that node belong to
+Given a node, what is the position of that node in its chain
+Given a node, what is the head of the chain
+Given a node, what is the length of the chain
+
+HLD Modified:
+  1. Special child: Among all child nodes of a node, the one with maximum subtree size is special.
+  2. Special edge:  The edge connecting with its special child is considered as special edge.
+  
+  In this version of HLD:
+  1. Perform Euler Tour in Tree(ETT)
+  2. In DFS always move to special child first
+  
