@@ -1,0 +1,13 @@
+1.  LOJ       - 1083      -   Histogram (SegTree + BS)
+2.  SPOJ      - GSS1      -   
+3.  SPOJ      - GSS3      -             (Max Subarray Sum)
+4.  SPOJ      - KQuery    -             (Offline Query)
+5.  SPOJ      - MKTHNUM   -             (Merge Sort Tree)
+6.  CF        - 1042D     -             (Merge Sort Tree)
+7.  CF        - 301D      -             (Offline Query)
+8.  LOJ       - 1348      -             (HLD)
+9.  LOJ       - 1085      -
+10. SPOJ      - DQuery    -             (Offline Query)
+11. SPOJ      - BGSHOOT   -
+12. SPOJ      - POSTERS
+13. BUET IUPC - UNIQUE ARRAY
