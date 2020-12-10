@@ -1,5 +1,6 @@
 HLD BACS Tutorial: https://www.youtube.com/watch?v=0v--9nEFfAM&t=4011s
 HLD CF Tutorial: https://codeforces.com/blog/entry/12239
+HLD Best Blog: https://blog.anudeep2011.com/heavy-light-decomposition/
 
 1. HLD split the tree into several path(vertex-disjoint chains-Meaning no two chain has a node in common)
 2. For any node v, it can reach root by traversing at most logn path(logn chain)
