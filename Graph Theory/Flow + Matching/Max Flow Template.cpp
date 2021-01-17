@@ -87,6 +87,28 @@ using namespace std;
 
     -> সাধারণ ম্যাক্স-ফ্লো ব্যবহার করেই এজ ডিসজয়েন্ট পাথ বের করা যায়। শুরুর নোডকে সোর্স এবং গন্তব্য নোডকে সিংক ধরবে। এবার সবগুলো এজ এর ক্যাপাসিটি বানিয়ে দাও ১ এর সমান। এখন যদি তুমি সোর্স থেকে সিংকে দুই ফ্লো পাঠাতো পারো সেটার মানে হলো দুটি ডিসজয়েন্ট পাথ আছে। প্রতিটা এজের ক্যাপাসিটি ১ হওয়াতে ২ ফ্লো যে দুটি পথে গিয়েছে তাদের মধ্যে কমন এজ থাকা সম্ভব না।
     ঠিক একই ভাবে তুমি একটা গ্রাফে সর্বোচ্চ কয়টা ডিসজয়েন্ট পাথ থাকা সম্ভব অথবা দুই বন্ধুর জায়গায় K টা বন্ধু থাকলে কি হতো বের করে ফেলতে পারবে।
+    
+    ৪) Min Cut = Max Flow
+    মোট সর্বনিম্ন কত কস্টের এজ রিমুভ করলে একটা গ্রাফে সোর্স এবং সিংক ডিসকানেক্ট হয়ে যায় সেটিই হচ্ছে Min Cut.
+    Cut Set: A set of edges which when removed, the source and sink gets disconnected.
+    Cost of Cut Set: Summation of the capacities of edges in the cut set.
+    Min Cut: The cut set with minimum cost.
+    
+    ৫)  Bipartite Graph: A bipartite graph is a graph whose vertices can be divided into two independent sets U and V such that every edge(u,v) either connects to a 
+        vertex from U to V or V to U. And there is no edge that connect vertices of same set.
+        Bipartite Graph is a bi-colorable graph.
+        
+        Bipartite Matching(BPM): A matching in a bipartite graph is a set of edges chosen in such a way that no two edges share an endpoint.
+        Max BPM = Max Flow
+    
+    ৬)  Independent Set: Independent set is a set of nodes from a bipartite graph such that no two nodes from this set are connected.
+        Maximum Size of Independent Set = Total node - Max BPM
+    
+    ৭)  Vertex Cover: Choose minimum number of vertex such that every edges of this graph is connected with any of those vertex.
+        Vertex Cover = Max BPM
+    
+    ৮)  Edge Cover: Choose minimum number of edges such that every node of this graph is an endpoint of any of those edges.
+        Edge Cover = n - Max BPM
 **/
 
 #define sz 105
