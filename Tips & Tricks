@@ -4,6 +4,7 @@ bool cmp(int a,int b)
 {
 	return a>b;
  }
+ 
  main()
  {
   sort(a,a+n,cmp);                //for array
@@ -21,7 +22,7 @@ struct node
         id=a;
         w=b;
     }
-    bool operator < ( const node p ) const{
+    bool operator < ( const node &p ) const{
         if( w == p.w ) return id < p.id ;
         return w > p.w ;
     }
@@ -33,28 +34,13 @@ struct Data
 {
     int val,pos;
 };
+
 bool cmp (Data A,Data B)
 {
       if(A.val != B.val)
         return A.val<B.val;           //Here we have to use greater than(>) if we want to sort in decreasing order
       else if(A.pos != B.pos)
         return A.pos<B.pos;           //Here we have to use greater than(>) if we want to sort in decreasing order
-      return 0;
-}
-
-**See the structure of fractional knapsack & think a little bit about it!
-struct Data
-{
-    int id;
-    double weight,profit;
-    bool operator<(Data A)
-    {
-        if((profit/weight) > (A.profit/A.weight))
-        {
-            return true;
-        }
-        return false;
-    }
 }
 
 4.If we have to add an int x in an array from index i to index j,and we have to do the cumulative sum of the array. Then there is a way
@@ -151,6 +137,6 @@ sort(v.begin(),v.end(),cmp);
 
 21. In DP, sometimes its need to be use map instead of dp array.
 
-22. Accessing an element in unordered map costs O(1) complexity bcoz it uses hash table. Point to be noted that key will not be sorted in unordered map.
+22. Insert, Erase in unordered map costs O(1) complexity bcoz it uses hash table. Point to be noted that key will not be sorted in unordered map.
 
 23. Iterate over unordered map costs more complexity than map!!!
