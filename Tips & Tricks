@@ -150,3 +150,7 @@ sort(v.begin(),v.end(),cmp);
 20. In DP, calculating from bigger to smaller state is more efficient.(In that case we haven't memset dp array in every case.)
 
 21. In DP, sometimes its need to be use map instead of dp array.
+
+22. Accessing an element in unordered map costs O(1) complexity bcoz it uses hash table. Point to be noted that key will not be sorted in unordered map.
+
+23. Iterate over unordered map costs more complexity than map!!!
